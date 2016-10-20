@@ -1,0 +1,15 @@
+Need to know
+
+1) std:: ios :: exceptions
+2) factories (should find out about constructors )
+3) working with files
+4) STL
+
+How to organize:
+
+1)Basic class - strategy (interface)
+2) Each strategy has its own file with parameters, history and so forth
+3)Matrix of the game - is in the programm
+4)Factory for all strategies
+There is an obstract class for all strategies
+All strategies have their own behavior so every class - is strategy
