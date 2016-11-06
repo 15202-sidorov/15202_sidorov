@@ -1,5 +1,5 @@
-#ifndef STRAT_SIMPLE_1
-#define STRAT_SIMPLE_1
+#ifndef STRAT_SIMPLE_2
+#define STRAT_SIMPLE_2
 
 #include "Strategy.h"
 #include "Design_Pattern.h"
@@ -8,14 +8,12 @@
 	Stupid strategy, always says DENY
 */
 
-class Strategy_Simple_1 : public Strategy
+class Strategy_Simple_2 : public Strategy
 {
 public:
 	move say() const override;
 	void  tell_result(move ,move) override;
-	//void give_name() override;
-	~Strategy_Simple_1() override;
-
+	~Strategy_Simple_2() override;
 };
 
 

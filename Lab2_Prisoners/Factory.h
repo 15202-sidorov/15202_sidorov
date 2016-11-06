@@ -1,13 +1,15 @@
 #ifndef _FACTORY_H_
 #define _FACTORY_H_
 
-#include <unrodered_map>
+#include <unordered_map>
+#include "Strategy.h"
+#include <iostream>
 
 class Factory
 {
 public:
 
-	typedef Strategy& (*creator_func)();
+	typedef Strategy *(*creator_func)();
 	/*
 		Cинглтон мейерса
 		т.е гарантирует что в приложении будет единственный экземпляр класса 
@@ -17,7 +19,7 @@ public:
 	{
 		/*
 			Defines that before program
-			so will always return one adress
+			so it will always return one adress
 		*/
 		static Factory f;
 		return &f;
@@ -33,23 +35,24 @@ public:
 		Should give it function and id
 		Id will mean what product do you wanna make 
 	*/
-	Strategy *create(const std :: string& id
-					const creator_func& creator)
+	Strategy *create(const std :: string& id)
 	{
-		creatorz[id] = creator;
-		return true;
+		
+		return creatorz.at(id)();
 	}
 	/*
 		Registers object in factory
 	*/
 	bool regist3r(const std :: string& id,
-					const creator_func& creator)
+				  const creator_func& creator)
 	{
 		creatorz[id] = creator;
 		return true;
 	}
 private:
-	Factory() = delete;
-	std :: unrodered_map <std :: string, creator_t> creatorz;
+	Factory() {};
+	std :: unordered_map <std :: string, creator_func> creatorz;
 
 };
+
+#endif
