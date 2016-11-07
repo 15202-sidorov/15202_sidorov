@@ -1,2 +1,2 @@
-prison_make : Game.h InputParser.h InputParser.cpp Strategy.h Strat_1_Simple.h main.cpp Design_Pattern.h Strat_1_Simple.cpp Strat_2_Simple.h Strat_2_Simple.cpp Game_Detailed.h Game_Detailed.cpp Game_Not_Detailed.h Game_Not_Detailed.cpp Game_Tournament.h Game_Tournament.cpp
-	g++ -std=c++11 InputParser.cpp Game_Detailed.cpp Game_Not_Detailed.cpp Game_Tournament.cpp main.cpp Strat_1_Simple.cpp Strat_2_Simple.cpp 
+prison_make : Game.h MatrixReader.h GameRun.h MatrixReader.cpp GameRun.cpp InputParser.h InputParser.cpp Strategy.h Strat_1_Simple.h main.cpp Design_Pattern.h Strat_1_Simple.cpp Strat_2_Simple.h Strat_2_Simple.cpp Game_Detailed.h Game_Detailed.cpp Game_Not_Detailed.h Game_Not_Detailed.cpp Game_Tournament.h Game_Tournament.cpp
+	g++ -std=c++11 MatrixReader.cpp GameRun.cpp InputParser.cpp Game_Detailed.cpp Game_Not_Detailed.cpp Game_Tournament.cpp main.cpp Strat_1_Simple.cpp Strat_2_Simple.cpp 

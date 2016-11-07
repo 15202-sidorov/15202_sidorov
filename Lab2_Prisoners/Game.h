@@ -14,6 +14,7 @@ public:
 	virtual void play() = 0;
 	virtual ~Game(){};
 protected:
+	Game(){};
 	Matrix_T matrix = 
 		{
 			//m1  - Cooperate

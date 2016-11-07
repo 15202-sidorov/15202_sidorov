@@ -15,6 +15,10 @@ public:
 	virtual void  tell_result(move,move) = 0;
 	//virtual void give_name() = 0;
 	virtual ~Strategy(){};
+/*
+protected:
+	Strategy(){};
+*/
 };
 
 

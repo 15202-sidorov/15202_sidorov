@@ -6,7 +6,7 @@ std::string InputParser::mode_name = "detailed";
 std::vector<std::string> InputParser::strategy_name = {};
 
 void InputParser::Parse_Argv(int argc, char **argv)
-	{
+{
 		int i = 1;
 		while(argc > i)
 		{
@@ -21,51 +21,108 @@ void InputParser::Parse_Argv(int argc, char **argv)
 			}
 		}
 		
-		if (strategy_name.size() < 3)
+		try
 		{
-			throw STRATEGY_ERROR;
-		}
-
-		while(argc > i)
-		{
-			std::string tmp = argv[i];
-			if (tmp == "--mode=")
+			if (strategy_name.size() < 3)
 			{
-				tmp = argv[++i];
-				if ((tmp != "detailed") && (tmp != "fast") && (tmp != "tournament"))
-				{
-					throw MODE_ERROR;
-				}
-				mode_name = tmp;
+				throw STRATEGY_ERROR;
 			}
-			else if (tmp == "--steps=")
-			{	
-				tmp = argv[++i];
-				for(int j = 0; j < tmp.size(); j++)
+
+			while(argc > i)
+			{
+				std::string tmp = argv[i];
+				if (tmp == "--mode=")
 				{
-					if ((tmp[j] > '9')  || (tmp[j] < '0'))
+					tmp = argv[++i];
+					if ((tmp != "detailed") && (tmp != "fast") && (tmp != "tournament"))
 					{
-						throw STEPS_ERROR;
+						throw MODE_ERROR;
 					}
+					mode_name = tmp;
 				}
+				else if (tmp == "--steps=")
+				{	
+					tmp = argv[++i];
+					for(int j = 0; j < tmp.size(); j++)
+					{
+						if ((tmp[j] > '9')  || (tmp[j] < '0'))
+						{
+							throw STEPS_ERROR;
+						}
+					}
 				
-				steps = atoi(argv[i]);
+					steps = atoi(argv[i]);
+				}
+				else if (tmp == "--matrix=")
+				{	
+					tmp = argv[++i];
+					matrix_file_name = tmp;	
+				}
+				i++;
 			}
-			else if (tmp == "--matrix=")
-			{	
-				tmp = argv[++i];
-				matrix_file_name = tmp;	
+		
+			if (strategy_name.size() < 3)
+			{
+				throw STRATEGY_ERROR;
 			}
-			i++;
+
+			while(argc > i)
+			{
+				std::string tmp = argv[i];
+				if (tmp == "--mode=")
+				{
+					tmp = argv[++i];
+					if ((tmp != "detailed") && (tmp != "fast") && (tmp != "tournament"))
+					{
+						throw MODE_ERROR;
+					}
+					mode_name = tmp;
+				}
+				else if (tmp == "--steps=")
+				{	
+					tmp = argv[++i];
+					for(int j = 0; j < tmp.size(); j++)
+					{
+						if ((tmp[j] > '9')  || (tmp[j] < '0'))
+						{
+							throw STEPS_ERROR;
+						}	
+					}
+				
+					steps = atoi(argv[i]);
+				}
+				else if (tmp == "--matrix=")
+				{	
+					tmp = argv[++i];
+					matrix_file_name = tmp;	
+				}
+				i++;
+			}
 		}
-	};
+		catch(ERROR_ID err)
+		{
+			switch(err)
+			{
+				case STEPS_ERROR:
+				{
+					std::cerr << "Steps error,abort" << std::endl;
+					exit(-1);
+				}
+				case STRATEGY_ERROR:
+				{
+					std::cerr << "Not enough strategies,abort" << std::endl;
+					exit(-1);
+				}
+				case MODE_ERROR:
+				{
+					std::cerr << "Wrong mode,abort" << std::endl;
+					exit(-1);
+				}
+			}
+		}	
 
-void InputParser::set_default_tour()
-{
-	mode_name = "tournament";
-}
-
-std::string InputParser::get_mode() { return mode_name; };
-std::string InputParser::get_matrix() { return matrix_file_name ; };
-std::vector<std::string> InputParser::get_strategies() { return strategy_name; };
-int InputParser::get_steps() { return steps; };
+		if (strategy_name.size() > 3)
+		{
+			mode_name = "tournament";
+		}
+};

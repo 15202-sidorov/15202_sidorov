@@ -13,22 +13,14 @@ using ERROR_ID =
 		MODE_ERROR
 	};
 
-class InputParser
+namespace InputParser
 {
-public:	
-	static void set_default_tour();
-	static void Parse_Argv(int argc, char **argv);
-	static std::string get_mode();
-	static std::string get_matrix();
-	static std::vector<std::string> get_strategies();
-	static int get_steps();
+	void Parse_Argv(int argc, char **argv);
+	extern int steps;
+	extern std::string matrix_file_name;
+	extern std::string mode_name;
+	extern std::vector<std::string> strategy_name;
+}
 
-private:
-	static int steps;
-	static std::string matrix_file_name;
-	static std::string mode_name;
-	static std::vector<std::string> strategy_name;
-
-};
 
 #endif
