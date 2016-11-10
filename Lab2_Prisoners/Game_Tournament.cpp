@@ -1,4 +1,4 @@
-#include "Game_Tournament.h"
+#include "include/Game_Tournament.h"
 
 Game_Tournament::Game_Tournament(std::vector<Strategy *> arr,int n, Matrix_T& matr_) : all_strat(arr), amount_of_steps(n), result(std::vector<int>(arr.size(),0)) 
 {

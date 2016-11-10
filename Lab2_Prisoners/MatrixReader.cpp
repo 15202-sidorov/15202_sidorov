@@ -1,17 +1,80 @@
-#include "MatrixReader.h"
+#include "include/MatrixReader.h"
 
 Matrix_T MatrixReader::MatrixInFile;
 
 void MatrixReader::Read()
 {
 	std::ifstream file;
-	file.open(InputParser::matrix_file_name);
-	if (!file.is_open())
+	try
 	{
-		std::cout << "Can't find file" << std::endl;
-		exit(-1);
+		if (InputParser::matrix_file_name == "default")
+		{
+			//setting default matrix
+			MatrixInFile = 
+				{
+				//m1  - Cooperate
+					{
+					//m2 - Cooperate
+					{
+						//m3 - Cooperate
+						{
+							//all cooperate
+							{1 , 1, 1}
+						},
+						//m3 - Deny
+						{
+			  				//1 1 0
+							{3, 3, 0}
+						}
+					},
+					//m2 - Deny
+					{
+						{
+							//1 0 1
+							{3, 0, 3}
+						},
+						{
+							//1 0 0
+							{5, 2, 2}
+						}
+					}
+				},
+				//m1 - Deny
+				{
+					{
+						{
+							//0 1 1
+							{0, 3, 3}
+						},
+						{
+							//0 1 0
+							{2, 5, 2}
+						}
+					},
+					{
+						{
+							//0 0 1
+							{2, 2, 5}
+						},
+						{	
+							//0 0 0
+							{4, 4, 4}
+						}
+					}
+				}
+			};
+			return;
+		}
+		file.exceptions(std::ifstream::failbit);
+		file.open(InputParser::matrix_file_name);
 	}
+	catch(std::ios_base::failure& fail)
+	{
+		std::cerr << "Can't find file" << std::endl;
+		exit(1);
+	};
 
+	//setting NULL matrix
 	MatrixInFile.push_back({
 						{
 							 { 

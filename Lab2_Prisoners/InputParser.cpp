@@ -1,4 +1,4 @@
-#include "InputParser.h"
+#include "include/InputParser.h"
 
 int InputParser::steps = 1;
 std::string InputParser::matrix_file_name = "default";

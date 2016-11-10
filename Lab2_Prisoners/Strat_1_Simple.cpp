@@ -1,4 +1,4 @@
-#include "Strat_1_Simple.h"
+#include "include/Strat_1_Simple.h"
 
 namespace 
 {

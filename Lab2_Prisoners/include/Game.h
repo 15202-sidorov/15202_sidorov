@@ -7,7 +7,6 @@
 
 using Matrix_T = std::vector<std :: vector<std :: vector<std :: vector<int>>>>;
 
-
 class Game
 {
 public:

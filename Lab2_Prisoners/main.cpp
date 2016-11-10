@@ -1,5 +1,5 @@
 
-#include "GameRun.h"
+#include "include/GameRun.h"
 //STRATEGIES!
 //how do we define whether to use default matrix??
 //protected constructors for interfaces

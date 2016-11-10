@@ -1,4 +1,4 @@
-#include "Game_Not_Detailed.h"
+#include "include/Game_Not_Detailed.h"
 #include <assert.h>
 
 Game_Not_Detailed::Game_Not_Detailed(std::vector<Strategy *> arr, int n, Matrix_T& matr_) : all_strat(arr),amount_of_steps(n)
