@@ -1,13 +1,4 @@
-#include "include/Game_Tournament.h"
-
-Game_Tournament::Game_Tournament(std::vector<Strategy *> arr,int n, Matrix_T& matr_) : all_strat(arr), amount_of_steps(n), result(std::vector<int>(arr.size(),0)) 
-{
-	if (matr_.size() != 0)
-	{
-		matrix = matr_;
-	}
-}
-
+#include "Game_Tournament.h"
 
 void Game_Tournament :: play_once(Strategy *s1, Strategy *s2, Strategy *s3, int i, int j, int k)
 {
@@ -21,9 +12,9 @@ void Game_Tournament :: play_once(Strategy *s1, Strategy *s2, Strategy *s3, int 
 	result[j] += result_tmp[1];
 	result[k] += result_tmp[2];
 
-	s1->tell_result(m2,m3);
-	s2->tell_result(m1,m3);
-	s3->tell_result(m1,m2);
+	s1->tell_result(m2,m3,result_tmp[0]);
+	s2->tell_result(m1,m3,result_tmp[1]);
+	s3->tell_result(m1,m2,result_tmp[2]);
 
 	return ;
 }
@@ -36,7 +27,7 @@ void Game_Tournament :: play()
 		{
 			for (int k = j+1; k < all_strat.size(); k++)
 			{
-				play_once(all_strat[i],all_strat[j],all_strat[k],i,j,k);
+				play_once(all_strat[i].get(),all_strat[j].get(),all_strat[k].get(),i,j,k);
 				std::cout << "Play :" << i << " " << j << " " << k << std::endl;
 			}
 		}

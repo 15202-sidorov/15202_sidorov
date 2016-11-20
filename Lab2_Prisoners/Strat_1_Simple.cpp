@@ -1,4 +1,4 @@
-#include "include/Strat_1_Simple.h"
+#include "Strat_1_Simple.h"
 
 namespace 
 {
@@ -11,10 +11,10 @@ namespace
 	bool ok = Factory<Strategy,std::string,std::function<Strategy *()>> :: getInstance()->regist3r("Strategy_Simple_1",createStrat_1);
 }
 
-Strategy_Simple_1 :: ~Strategy_Simple_1(){ return; } 
+Strategy_Simple_1 :: ~Strategy_Simple_1(){ } 
 
-void Strategy_Simple_1 :: tell_result(move, move){ return; } 
+void Strategy_Simple_1 :: tell_result(move, move,int){ } 
 
-move Strategy_Simple_1 :: say() const{ return Deny; }
+move Strategy_Simple_1 :: say() { return Deny; }
 
 

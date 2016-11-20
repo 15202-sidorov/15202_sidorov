@@ -1,14 +1,5 @@
-#include "include/Game_Detailed.h"
+#include "Game_Detailed.h"
 #include <assert.h>
-
-Game_Detailed::Game_Detailed(std::vector<Strategy*> arr, int n, Matrix_T& matr_) : all_strat(arr) ,amount_of_steps(n)
-{
-	if (matr_.size() != 0)
-	{
-		matrix = matr_;
-	}
-	
-}
 
 std::vector<int> Game_Detailed :: play_once()
 {
@@ -31,9 +22,9 @@ std::vector<int> Game_Detailed :: play_once()
 	std::cout << "Points assigned: " << result_tmp[0] << " "<< result_tmp[1] << " " << result_tmp[2] << std::endl;
 	std::cout << "Points in game: " << result[0] << " " << result[1] << " " << result[2] << std::endl; 
 
-	all_strat[0]->tell_result(m2,m3);
-	all_strat[1]->tell_result(m1,m3);
-	all_strat[2]->tell_result(m1,m2);
+	all_strat[0]->tell_result(m2,m3,result_tmp[0]);
+	all_strat[1]->tell_result(m1,m3,result_tmp[1]);
+	all_strat[2]->tell_result(m1,m2,result_tmp[2]);
 
 	std::cout << "The round is over" << std::endl;
 

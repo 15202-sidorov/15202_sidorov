@@ -1,14 +1,5 @@
-#include "include/Game_Not_Detailed.h"
+#include "Game_Not_Detailed.h"
 #include <assert.h>
-
-Game_Not_Detailed::Game_Not_Detailed(std::vector<Strategy *> arr, int n, Matrix_T& matr_) : all_strat(arr),amount_of_steps(n)
-{
-	if (matr_.size() != 0)
-	{
-		matrix = matr_;
-	}
-}
-
 
 std::vector<int> Game_Not_Detailed :: play_once()
 {
@@ -24,9 +15,9 @@ std::vector<int> Game_Not_Detailed :: play_once()
 		result[i] += result_tmp[i];
 	}
 
-	all_strat[0]->tell_result(m2,m3);
-	all_strat[1]->tell_result(m1,m3);
-	all_strat[2]->tell_result(m1,m2);
+	all_strat[0]->tell_result(m2,m3,result_tmp[0]);
+	all_strat[1]->tell_result(m1,m3,result_tmp[1]);
+	all_strat[2]->tell_result(m1,m2,result_tmp[2]);
 
 	return result_tmp;
 }
