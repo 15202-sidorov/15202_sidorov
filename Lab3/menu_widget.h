@@ -12,18 +12,30 @@ public:
 signals:
 	void RunGame();
 	void StopGame();
+	void MakeStep();
+	void ClearFeild();
 
 private slots:
 	void setLabelStop();
-	void setLabelInProgress();	
+	void setLabelInProgress();
+	void throwStep() {emit MakeStep();};
+	void throwClear() {emit ClearFeild();};
+	void throwStop() {emit StopGame();};
+	void throwRun() {emit RunGame();};
+
+
 private:
 	QLabel state;
-	QVBoxLayout layout;
+	QHBoxLayout button_layout;
+	QHBoxLayout info_layout; 
+	QVBoxLayout main_layout;
+	
 	QPushButton StopButton;
 	QPushButton StartButton;
+	QPushButton StepButton;
+	QPushButton ClearButton;
 	static const QString STOP_SIGN;
 	static const QString GO_SIGN;
 };
-
 
 #endif

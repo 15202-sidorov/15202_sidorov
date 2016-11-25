@@ -22,25 +22,40 @@ static const uint qt_meta_data_FeildWidget[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       0,    0, // methods
+       4,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
        0,       // signalCount
 
+ // slots: signature, parameters, type, tag, flags
+      13,   12,   12,   12, 0x0a,
+      24,   12,   12,   12, 0x0a,
+      36,   12,   12,   12, 0x0a,
+      47,   12,   12,   12, 0x0a,
+
        0        // eod
 };
 
 static const char qt_meta_stringdata_FeildWidget[] = {
-    "FeildWidget\0"
+    "FeildWidget\0\0StepOnce()\0StartPlay()\0"
+    "StopPlay()\0Clear()\0"
 };
 
 void FeildWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
-    Q_UNUSED(_o);
-    Q_UNUSED(_id);
-    Q_UNUSED(_c);
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        Q_ASSERT(staticMetaObject.cast(_o));
+        FeildWidget *_t = static_cast<FeildWidget *>(_o);
+        switch (_id) {
+        case 0: _t->StepOnce(); break;
+        case 1: _t->StartPlay(); break;
+        case 2: _t->StopPlay(); break;
+        case 3: _t->Clear(); break;
+        default: ;
+        }
+    }
     Q_UNUSED(_a);
 }
 
@@ -75,6 +90,11 @@ int FeildWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     _id = QWidget::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        if (_id < 4)
+            qt_static_metacall(this, _c, _id, _a);
+        _id -= 4;
+    }
     return _id;
 }
 QT_END_MOC_NAMESPACE

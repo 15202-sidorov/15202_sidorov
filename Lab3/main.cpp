@@ -17,41 +17,22 @@ int main(int argc, char **argv)
 	
 	QWidget window;
 	window.setFixedSize(500,600);
-	FeildWidget f(&window,10,10);
+	FeildWidget f(&window,20,20);
 	Menu menu(&window);
 	
 	QVBoxLayout layout;
-
-	
-
 	layout.addWidget(&menu);
 	layout.addWidget(&f);
 	layout.setAlignment(&f,Qt::AlignHCenter);
 	layout.setAlignment(&menu,Qt::AlignHCenter);
 	
+	QObject::connect(&menu,SIGNAL(MakeStep()),&f,SLOT(StepOnce()));
+	QObject::connect(&menu,SIGNAL(RunGame()),&f,SLOT(StartPlay()));
+	QObject::connect(&menu,SIGNAL(StopGame()),&f,SLOT(StopPlay()));
+	QObject::connect(&menu,SIGNAL(ClearFeild()),&f,SLOT(Clear()));
+
 	window.setLayout(&layout);
 	window.show();
 
-	/*
-	std::string input;
-	std::getline(std::cin,input);
-	QObject::connect(&button,SIGNAL(clicked()),&paint,SLOT(update()));
-	paint.update();
-	*/
-	/*
-	QTextEdit textEdit;
-	QPushButton quitButton("Quit");
- 	
- 	QObject::connect(&quitButton,SIGNAL(clicked()), qApp, SLOT(quit()));
- 	QVBoxLayout layout;
-
- 	layout.addWidget(&quitButton);
- 	layout.addWidget(&textEdit);
-
- 	QWidget window;
- 	window.setLayout(&layout);
-
- 	window.show();
-	*/
 	return app.exec();
 }

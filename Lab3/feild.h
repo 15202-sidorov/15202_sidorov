@@ -5,40 +5,28 @@
 #include <vector>
 #include <assert.h>
 
-#define ASSERT_COORDINATES \
-	assert(x >= 0); \
-	assert(y >= 0); \
-	assert(x <= width); \
-	assert(y <= height);
-
 class Feild
 {
 public:
-	Feild(int width_, int height_)
-		: width(width_), height(height_)
-	{
-		cell = new bool[width * height]();
-	};
+	Feild(int width_, int height_);
+	int getWidth() const {return width;};
+	int getHeight() const {return height;};
+	bool getCellState(int x, int y) const;
 	
-	int getWidth() {return width;};
-	int getHeight() {return height;};
-
+	void play_once();
 	void play(int n);
-	bool getCellState(int x, int y);
-	void setCellState(int x, int y, bool val);
+	void changeCellState(int x, int y);
+	void clear();
 
-	~Feild()
-	{
-		delete [] cell;
-	}
 
+	~Feild();
 private:
 	int width;
 	int height;
-	void play_once();
-	bool CheckCell(int x, int y);
+	int CountLiving(int x, int y) const;
+	bool CheckCell(int x, int y) const;
 	bool *cell;
-	//static const bool *rules = {0,1,1,0,0,0,0,0};
+	static std::vector<int> rules;
 
 };
 

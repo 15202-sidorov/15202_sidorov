@@ -22,27 +22,35 @@ static const uint qt_meta_data_Menu[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   14, // methods
+      10,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       2,       // signalCount
+       4,       // signalCount
 
  // signals: signature, parameters, type, tag, flags
        6,    5,    5,    5, 0x05,
       16,    5,    5,    5, 0x05,
+      27,    5,    5,    5, 0x05,
+      38,    5,    5,    5, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-      27,    5,    5,    5, 0x08,
-      42,    5,    5,    5, 0x08,
+      51,    5,    5,    5, 0x08,
+      66,    5,    5,    5, 0x08,
+      87,    5,    5,    5, 0x08,
+      99,    5,    5,    5, 0x08,
+     112,    5,    5,    5, 0x08,
+     124,    5,    5,    5, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_Menu[] = {
-    "Menu\0\0RunGame()\0StopGame()\0setLabelStop()\0"
-    "setLabelInProgress()\0"
+    "Menu\0\0RunGame()\0StopGame()\0MakeStep()\0"
+    "ClearFeild()\0setLabelStop()\0"
+    "setLabelInProgress()\0throwStep()\0"
+    "throwClear()\0throwStop()\0throwRun()\0"
 };
 
 void Menu::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -53,8 +61,14 @@ void Menu::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void *
         switch (_id) {
         case 0: _t->RunGame(); break;
         case 1: _t->StopGame(); break;
-        case 2: _t->setLabelStop(); break;
-        case 3: _t->setLabelInProgress(); break;
+        case 2: _t->MakeStep(); break;
+        case 3: _t->ClearFeild(); break;
+        case 4: _t->setLabelStop(); break;
+        case 5: _t->setLabelInProgress(); break;
+        case 6: _t->throwStep(); break;
+        case 7: _t->throwClear(); break;
+        case 8: _t->throwStop(); break;
+        case 9: _t->throwRun(); break;
         default: ;
         }
     }
@@ -93,9 +107,9 @@ int Menu::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 4)
+        if (_id < 10)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 10;
     }
     return _id;
 }
@@ -110,5 +124,17 @@ void Menu::RunGame()
 void Menu::StopGame()
 {
     QMetaObject::activate(this, &staticMetaObject, 1, 0);
+}
+
+// SIGNAL 2
+void Menu::MakeStep()
+{
+    QMetaObject::activate(this, &staticMetaObject, 2, 0);
+}
+
+// SIGNAL 3
+void Menu::ClearFeild()
+{
+    QMetaObject::activate(this, &staticMetaObject, 3, 0);
 }
 QT_END_MOC_NAMESPACE
