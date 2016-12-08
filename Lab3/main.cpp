@@ -1,8 +1,5 @@
-//model- view - constroller
 
-//gmake -project && qmake && make
-//qmake -> makefile comes out
-//make
+//sizes of all widgets are constant
 
 #include <QtGui>
 #include <QPainter>
@@ -11,13 +8,20 @@
 #include "feild_widget.h"
 #include "menu_widget.h"
 
+#include "get_feild.h"
+
 int main(int argc, char **argv)
 {
+	Feild_Loader load;
+
 	QApplication app(argc,argv);
 	
 	QWidget window;
 	window.setFixedSize(500,600);
-	FeildWidget f(&window,20,20);
+	FeildWidget f(&window,
+				  load.get_height(),
+				  load.get_width(),
+				  load.get_cells());
 	Menu menu(&window);
 	
 	QVBoxLayout layout;

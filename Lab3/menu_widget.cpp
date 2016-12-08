@@ -1,10 +1,12 @@
 #include "menu_widget.h"
 
-#define SET_GOOD_LABEL(SIGN) \
-	QString labelText = "<P><b><i><FONT COLOR='#ff0000' FONT SIZE = 4>"; \
-	labelText.append(SIGN); \
-	labelText.append("</i></b></P></br>"); \
+void Menu::SET_GOOD_LABEL(QString sign)
+{
+	QString labelText = "<P><b><i><FONT COLOR='#ff0000' FONT SIZE = 4>";
+	labelText.append(sign);
+	labelText.append("</i></b></P></br>"); 
 	state.setText(labelText);
+}
 
 const QString Menu::STOP_SIGN = "Stop";
 const QString Menu::GO_SIGN = "In progress";
@@ -14,7 +16,7 @@ Menu::Menu(QWidget *parent)
 {
 	//setting text for buttons and so forth
 	
-	SET_GOOD_LABEL(STOP_SIGN)
+	SET_GOOD_LABEL(STOP_SIGN);
 	StartButton.setText("GO");
 	StopButton.setText("STOP");
 	StepButton.setText("STEP");
@@ -45,17 +47,16 @@ Menu::Menu(QWidget *parent)
 	
 	connect(&StepButton,SIGNAL(clicked()),this,SLOT(throwStep()));
 	connect(&ClearButton,SIGNAL(clicked()),this,SLOT(throwClear()));
-;
 }
 
 void Menu::setLabelInProgress()
 {
-	SET_GOOD_LABEL(GO_SIGN)
+	SET_GOOD_LABEL(GO_SIGN);
 	this->update();
 }
 
 void Menu::setLabelStop()
 {
-	SET_GOOD_LABEL(STOP_SIGN)
+	SET_GOOD_LABEL(STOP_SIGN);
 	this->update();
 } 

@@ -7,7 +7,7 @@ class Menu: public QWidget
 {
 	Q_OBJECT
 public:
-	Menu(QWidget *parent);
+	explicit Menu(QWidget *parent);
 
 signals:
 	void RunGame();
@@ -23,7 +23,6 @@ private slots:
 	void throwStop() {emit StopGame();};
 	void throwRun() {emit RunGame();};
 
-
 private:
 	QLabel state;
 	QHBoxLayout button_layout;
@@ -36,6 +35,8 @@ private:
 	QPushButton ClearButton;
 	static const QString STOP_SIGN;
 	static const QString GO_SIGN;
+
+	inline void SET_GOOD_LABEL(QString sign);
 };
 
 #endif
