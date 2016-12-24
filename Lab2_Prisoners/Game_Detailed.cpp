@@ -1,9 +1,7 @@
 #include "Game_Detailed.h"
-#include <assert.h>
 
 std::vector<int> Game_Detailed :: play_once()
 {
-	assert(all_strat.size() == 3);
 	move m1 = all_strat[0]->say();
 	move m2 = all_strat[1]->say();
 	move m3 = all_strat[2]->say();

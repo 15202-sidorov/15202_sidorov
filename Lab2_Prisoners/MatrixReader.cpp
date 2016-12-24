@@ -1,12 +1,10 @@
 #include "MatrixReader.h"
 
-Matrix_T MatrixReader::MatrixInFile;
-
-void MatrixReader::Read()
+MatrixReader::MatrixReader( std::string matrix_file_name )
 {
 	std::ifstream file;
 	
-	if (InputParser::matrix_file_name == "default")
+	if (matrix_file_name == "default")
 	{
 		//setting default matrix
 		MatrixInFile = 
@@ -65,7 +63,7 @@ void MatrixReader::Read()
 		return;
 	}
 	file.exceptions(std::ifstream::failbit);
-	file.open(InputParser::matrix_file_name);
+	file.open(matrix_file_name);
 
 
 	//setting NULL matrix

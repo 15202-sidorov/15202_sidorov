@@ -1,11 +1,8 @@
 #include "InputParser.h"
 
-int InputParser::steps = 1;
-std::string InputParser::matrix_file_name = "default";
-std::string InputParser::mode_name = "detailed";
-std::vector<std::string> InputParser::strategy_name = {};
-
-void InputParser::Parse_Argv(int argc, char **argv)
+InputParser::InputParser(int argc, char **argv)
+	: steps(1), matrix_file_name("default"), 
+	mode_name("detailed"), strategy_name({})
 {
 	int i = 1;
 	while(argc > i)
@@ -24,6 +21,10 @@ void InputParser::Parse_Argv(int argc, char **argv)
 	if (strategy_name.size() < 3)
 	{
 		throw STRATEGY_ERROR;
+	}
+	else if (strategy_name.size() > 3)
+	{
+		mode_name = "tournament";
 	}
 
 	while(argc > i)
