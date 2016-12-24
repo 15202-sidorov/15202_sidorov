@@ -1,14 +1,16 @@
 #include "Hashtables_2.h"
 
-using namespace std;
 
 Hashtable :: Hashtable(const Hashtable& another)
 {
+	delete [] full;
+	delete [] bucket;
 	full = new bool[another.size];
 	bucket = new Value[another.size];
 	size = another.size;
 	load_factor = another.load_factor;
 	
+	// std copy
 	for (int i = 0; i < another.size; i++)
 	{
 		full[i] = another.full[i];
@@ -68,7 +70,7 @@ bool Hashtable :: insert(const Key& name, const Value& v)
 	full[index] = true;
 	bucket[index] = v;
 
-	return 1;
+	return true;
 }
 
 int Hashtable :: Hash_function(const Key& name) const
@@ -98,10 +100,7 @@ bool Hashtable :: erase(const Key& name)
 		load_factor -= 1.0 / size;
 		return 1;
 	}
-	else
-	{
-		return 0;
-	}
+	return 0;
 }
 
 bool Hashtable :: contains(const Key& name) const
@@ -113,14 +112,7 @@ bool Hashtable :: contains(const Key& name) const
 		index %= size;
 	}
 	
-	if (full[index])
-	{
-		return 1;
-	}
-	else
-	{
-		return 0;
-	}
+	return (full[index]);
 }
 
 void Hashtable :: clear()
@@ -133,35 +125,42 @@ void Hashtable :: clear()
 	load_factor = 0;
 }
 
-void Hashtable :: print()
-{
-	cout << "Printing hashtable :" << endl;
-	for (int i = 0; i < size; i++)
-	{
-		if (full[i])
-		{
-			cout << "Index : " << i << "\nName : " << bucket[i].name << "\nAge value : " << bucket[i].age << endl;
-		}
-	}
-}
-
 void Hashtable :: swap(Hashtable& h)
 {
-	Hashtable tmp;
-	tmp = *this;
-	h = tmp;
-	*this = h;
-	return ;
+	Value *tmp_bucket = bucket;
+	bool *tmp_full = full;
+	size_t tmp_size = size;
+	double tmp_load_factor = load_factor;
+
+	full = h.full;
+	bucket = h.bucket;
+	size = h.size;
+	load_factor = h.load_factor;
+
+	h.bucket = tmp_bucket;
+	h.full = tmp_full;
+	h.size = tmp_size;
+	h.load_factor = tmp_load_factor;
+	 
+
+	return;
 }
 
 Hashtable& Hashtable :: operator= (const Hashtable& h)
 {
+	if (&h == this)
+	{
+		return *this;
+	}
+
 	size = h.size;
 	load_factor = h.load_factor;
 	delete [] bucket;
 	delete [] full;
 	bucket = new Value[size];
 	full =  new bool[size];
+
+	// std copy
 	for (int i = 0 ; i < size; i++)
 	{
 		bucket[i] = h.bucket[i];
@@ -170,9 +169,8 @@ Hashtable& Hashtable :: operator= (const Hashtable& h)
 	return *this;
 }
 
-Value& Hashtable :: operator[] (const Key& name)
+Value& Hashtable :: operator[] (const Key& name) const
 {
-	assert(contains(name));
 	int index = Hash_function(name);
 	while ((bucket[index].name != name) && (full[index] != false))
 	{
@@ -224,14 +222,7 @@ bool operator != (const Hashtable& a, const Hashtable& b)
 
 bool Hashtable :: empty() const
 {
-	if (load_factor == 0)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return (load_factor == 0);
 }
 
 Value& Hashtable :: at (const Key& name)
@@ -245,7 +236,25 @@ Value& Hashtable :: at (const Key& name)
 	}
 	catch(int)
 	{
-		cout << "Does not contains name : " << name << endl;
+		std :: cout << "Does not contains name : " << name << std :: endl;
+		throw -1;
+	}
+	
+	return (*this)[name];
+}
+
+const Value& Hashtable :: at (const Key& name) const
+{
+	try
+	{
+		if (!contains(name))
+		{
+			throw -1;
+		}
+	}
+	catch(int)
+	{
+		std :: cout << "Does not contains name : " << name << std :: endl;
 		throw -1;
 	}
 	
@@ -254,7 +263,7 @@ Value& Hashtable :: at (const Key& name)
 
 size_t Hashtable :: get_size()
 {
-	return (size_t)size;
+	return size;
 }
 
 Hashtable :: ~Hashtable()
