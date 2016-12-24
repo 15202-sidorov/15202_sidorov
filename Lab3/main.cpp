@@ -15,7 +15,6 @@ int main(int argc, char **argv)
 	Feild_Loader load;
 
 	QApplication app(argc,argv);
-	
 	QWidget window;
 	window.setFixedSize(500,600);
 	FeildWidget f(&window,
@@ -23,7 +22,6 @@ int main(int argc, char **argv)
 				  load.get_width(),
 				  load.get_cells());
 	Menu menu(&window);
-	
 	QVBoxLayout layout;
 	layout.addWidget(&menu);
 	layout.addWidget(&f);

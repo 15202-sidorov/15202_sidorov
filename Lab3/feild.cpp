@@ -1,11 +1,5 @@
 #include "feild.h"
 
-#define ASSERT_COORDINATES \
-	assert(x >= 0); \
-	assert(y >= 0); \
-	assert(x <= width); \
-	assert(y <= height);
-
 //default value
 std::vector<int> Feild::rules_alive = {0,0,1,1,0,0,0,0,0};
 std::vector<int> Feild::rules_dead  = {0,0,0,1,0,0,0,0,0};

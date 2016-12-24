@@ -8,7 +8,7 @@ class FeildWidget: public QWidget
 {
 	Q_OBJECT
 public:	
-	explicit FeildWidget(	QWidget *parent, 
+	FeildWidget(	QWidget *parent, 
 							int length_, 
 							int height_,
 							std::vector<int> alive_cells );
@@ -22,7 +22,9 @@ public slots:
 
 protected:
 	void paintEvent(QPaintEvent *) override;
-	void mousePressEvent(QMouseEvent *event) override;
+	void mousePressEvent(QMouseEvent *event);
+	void mouseMoveEvent( QMouseEvent * event );
+	void scalingTime(qreal x);
 
 private:
 	Feild *feild;
@@ -37,6 +39,7 @@ private:
 	const int step_from_parent_x = 60;
 	const int step_from_parent_y = 160;
 	int time_interval_ms = 75;
+
 };
 
 #endif

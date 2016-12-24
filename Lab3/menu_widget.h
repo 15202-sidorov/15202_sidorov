@@ -25,6 +25,8 @@ private slots:
 
 private:
 	QLabel state;
+	QTextEdit WidthEdit;
+	QTextEdit HeightEdit;
 	QHBoxLayout button_layout;
 	QHBoxLayout info_layout; 
 	QVBoxLayout main_layout;
@@ -37,6 +39,7 @@ private:
 	static const QString GO_SIGN;
 
 	inline void SET_GOOD_LABEL(QString sign);
+	bool checkCorrectSize();
 };
 
 #endif

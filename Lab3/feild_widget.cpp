@@ -92,6 +92,17 @@ void FeildWidget::mousePressEvent(QMouseEvent *event)
     update();
 }
 
+void FeildWidget::mouseMoveEvent( QMouseEvent * event )
+{
+    if (state != PLAY)
+    {
+        QPoint mousePos = event->pos();
+        feild->changeCellState(mousePos.x()/dx_cell,
+                        mousePos.y()/dy_cell);
+        update();
+    }
+}
+
 void FeildWidget::StepOnce()
 {
     feild->play_once();

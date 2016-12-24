@@ -10,8 +10,8 @@ class Feild
 {
 public:
 	Feild(int width_, int height_);
-	int getWidth() const {return width + 1;};
-	int getHeight() const {return height + 1;};
+	int getWidth() const { return width + 1; };
+	int getHeight() const { return height + 1; };
 	bool getCellState(int x, int y) const;
 	
 	void play_once();
