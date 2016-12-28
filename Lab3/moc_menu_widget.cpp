@@ -22,35 +22,38 @@ static const uint qt_meta_data_Menu[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+      12,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       4,       // signalCount
+       5,       // signalCount
 
  // signals: signature, parameters, type, tag, flags
        6,    5,    5,    5, 0x05,
       16,    5,    5,    5, 0x05,
       27,    5,    5,    5, 0x05,
       38,    5,    5,    5, 0x05,
+      66,   51,    5,    5, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-      51,    5,    5,    5, 0x08,
-      66,    5,    5,    5, 0x08,
-      87,    5,    5,    5, 0x08,
-      99,    5,    5,    5, 0x08,
-     112,    5,    5,    5, 0x08,
-     124,    5,    5,    5, 0x08,
+      82,    5,    5,    5, 0x08,
+      97,    5,    5,    5, 0x08,
+     118,    5,    5,    5, 0x08,
+     130,    5,    5,    5, 0x08,
+     143,    5,    5,    5, 0x08,
+     155,    5,    5,    5, 0x08,
+     166,    5,    5,    5, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_Menu[] = {
     "Menu\0\0RunGame()\0StopGame()\0MakeStep()\0"
-    "ClearFeild()\0setLabelStop()\0"
-    "setLabelInProgress()\0throwStep()\0"
-    "throwClear()\0throwStop()\0throwRun()\0"
+    "ClearFeild()\0length_,width_\0Resize(int,int)\0"
+    "setLabelStop()\0setLabelInProgress()\0"
+    "throwStep()\0throwClear()\0throwStop()\0"
+    "throwRun()\0throwResize()\0"
 };
 
 void Menu::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -63,16 +66,17 @@ void Menu::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void *
         case 1: _t->StopGame(); break;
         case 2: _t->MakeStep(); break;
         case 3: _t->ClearFeild(); break;
-        case 4: _t->setLabelStop(); break;
-        case 5: _t->setLabelInProgress(); break;
-        case 6: _t->throwStep(); break;
-        case 7: _t->throwClear(); break;
-        case 8: _t->throwStop(); break;
-        case 9: _t->throwRun(); break;
+        case 4: _t->Resize((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 5: _t->setLabelStop(); break;
+        case 6: _t->setLabelInProgress(); break;
+        case 7: _t->throwStep(); break;
+        case 8: _t->throwClear(); break;
+        case 9: _t->throwStop(); break;
+        case 10: _t->throwRun(); break;
+        case 11: _t->throwResize(); break;
         default: ;
         }
     }
-    Q_UNUSED(_a);
 }
 
 const QMetaObjectExtraData Menu::staticMetaObjectExtraData = {
@@ -107,9 +111,9 @@ int Menu::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
+        if (_id < 12)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 12;
     }
     return _id;
 }
@@ -136,5 +140,12 @@ void Menu::MakeStep()
 void Menu::ClearFeild()
 {
     QMetaObject::activate(this, &staticMetaObject, 3, 0);
+}
+
+// SIGNAL 4
+void Menu::Resize(int _t1, int _t2)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(this, &staticMetaObject, 4, _a);
 }
 QT_END_MOC_NAMESPACE

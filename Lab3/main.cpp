@@ -17,6 +17,7 @@ int main(int argc, char **argv)
 	QApplication app(argc,argv);
 	QWidget window;
 	window.setFixedSize(500,600);
+
 	FeildWidget f(&window,
 				  load.get_height(),
 				  load.get_width(),
@@ -32,6 +33,7 @@ int main(int argc, char **argv)
 	QObject::connect(&menu,SIGNAL(RunGame()),&f,SLOT(StartPlay()));
 	QObject::connect(&menu,SIGNAL(StopGame()),&f,SLOT(StopPlay()));
 	QObject::connect(&menu,SIGNAL(ClearFeild()),&f,SLOT(Clear()));
+	QObject::connect(&menu,SIGNAL(Resize(int,int)),&f,SLOT(changeSize(int,int)));
 
 	window.setLayout(&layout);
 	window.show();

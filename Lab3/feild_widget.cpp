@@ -8,7 +8,7 @@ FeildWidget::FeildWidget(   QWidget *parent,
 {
 	feild = new Feild(length_,height_);
 	setFixedSize(parent->width() - step_from_parent_x, 
-                 parent->height()- step_from_parent_y);
+                 parent->height() - step_from_parent_y);
     dx_cell = (this->width())/(feild->getWidth()) + 1;
     dy_cell = (this->height())/(feild->getHeight()) + 1 ;
     if ((dx_cell == 0) || (dy_cell == 0))
@@ -32,12 +32,10 @@ void FeildWidget::paintEvent(QPaintEvent *)
 {
 	QPainter painter(this);
     painter.setRenderHint(QPainter::HighQualityAntialiasing);
-    //painter.setPen(Qt::black);
     painter.setBrush(Qt::black);
 
     painter.drawRoundedRect(0,0,this->width()-1,this->height()-1,3,3);
 
-   // DrawGrid(&painter);
     DrawCells(&painter);
 }
 
@@ -66,6 +64,8 @@ inline void FeildWidget::DrawGrid(QPainter *painter)
 inline void FeildWidget::DrawCells(QPainter *painter)
 {
     painter->setBrush(Qt::white);
+    dx_cell = (this->width())/(feild->getWidth()) + 1;
+    dy_cell = (this->height())/(feild->getHeight()) + 1 ;
 
     for (int i = 0; i < this->width(); i += dx_cell)
     {
@@ -89,7 +89,7 @@ void FeildWidget::mousePressEvent(QMouseEvent *event)
     QPoint mousePos = event->pos();
     feild->changeCellState(mousePos.x()/dx_cell,
                         mousePos.y()/dy_cell);
-    update();
+    repaint();
 }
 
 void FeildWidget::mouseMoveEvent( QMouseEvent * event )
@@ -97,9 +97,50 @@ void FeildWidget::mouseMoveEvent( QMouseEvent * event )
     if (state != PLAY)
     {
         QPoint mousePos = event->pos();
-        feild->changeCellState(mousePos.x()/dx_cell,
-                        mousePos.y()/dy_cell);
+        if (!feild->getCellState(mousePos.x()/dx_cell,
+                            mousePos.y()/dy_cell))
+        {
+             feild->changeCellState(mousePos.x()/dx_cell,
+                            mousePos.y()/dy_cell);
+        }
         update();
+    }
+}
+
+inline void FeildWidget::resizeFeild(int length_ , int height_)
+{
+    Feild *new_feild = new Feild(length_,height_);
+    int old_length = feild->getWidth();
+    int old_height = feild->getHeight();
+    for (int i = 0; i < length_; i++)
+    {
+        for (int j = 0; j < height_; j++)
+        {
+            if ((i <= old_length) && (j <= old_height))
+            {
+                if (feild->getCellState(i,j))
+                {
+                    new_feild->changeCellState(i,j);
+                }
+            }
+        }
+    }
+    delete feild;
+    feild = new_feild;
+    update();
+}
+
+void FeildWidget::changeSize(int length_ , int height_)
+{
+    if ( PLAY == state )
+    {
+        StopPlay();
+        resizeFeild(length_, height_);
+        StartPlay();
+    }
+    else
+    {
+        resizeFeild(length_, height_);
     }
 }
 
@@ -119,5 +160,4 @@ void FeildWidget::Clear()
 FeildWidget::~FeildWidget()
 {
     delete feild;
-    delete time;
 };

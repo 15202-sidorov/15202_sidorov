@@ -14,19 +14,22 @@ signals:
 	void StopGame();
 	void MakeStep();
 	void ClearFeild();
+	void Resize(int length_, int width_);
 
 private slots:
 	void setLabelStop();
 	void setLabelInProgress();
-	void throwStep() {emit MakeStep();};
-	void throwClear() {emit ClearFeild();};
-	void throwStop() {emit StopGame();};
-	void throwRun() {emit RunGame();};
+	void throwStep() { emit MakeStep(); };
+	void throwClear() { emit ClearFeild(); };
+	void throwStop() { emit StopGame(); };
+	void throwRun() { emit RunGame(); };
+	void throwResize();
 
 private:
 	QLabel state;
-	QTextEdit WidthEdit;
-	QTextEdit HeightEdit;
+	QLabel length;
+	QLabel height;
+
 	QHBoxLayout button_layout;
 	QHBoxLayout info_layout; 
 	QVBoxLayout main_layout;
@@ -35,8 +38,15 @@ private:
 	QPushButton StartButton;
 	QPushButton StepButton;
 	QPushButton ClearButton;
+	QPushButton ResizeButton;
+	QTextEdit HeightEdit;
+	QTextEdit LengthEdit;
 	static const QString STOP_SIGN;
 	static const QString GO_SIGN;
+	static const QString LENGTH_SIGN;
+	static const QString HEIGHT_SIGN;
+
+
 
 	inline void SET_GOOD_LABEL(QString sign);
 	bool checkCorrectSize();

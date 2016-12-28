@@ -28,9 +28,9 @@ private:
 	bool *cell;
 	
 	bool get_rules();
-	static std::vector<int> rules_alive;
-	static std::vector<int> rules_dead;
-	static std::string rules_file_name;
+	std::vector<int> rules_alive = {0,0,1,1,0,0,0,0,0};
+	std::vector<int> rules_dead  = {0,0,0,1,0,0,0,0,0};
+	std::string rules_file_name  = "rules.txt";
 
 };
 

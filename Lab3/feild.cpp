@@ -1,13 +1,5 @@
 #include "feild.h"
 
-//default value
-std::vector<int> Feild::rules_alive = {0,0,1,1,0,0,0,0,0};
-std::vector<int> Feild::rules_dead  = {0,0,0,1,0,0,0,0,0};
-
-//always takes rules out of this file
-//or sets default
-std::string Feild::rules_file_name = "rules.txt";
-
 Feild::Feild(int width_, int height_)
 	: width(width_ - 1), height(height_ - 1)
 {
@@ -165,6 +157,7 @@ bool Feild::get_rules()
 	rules_file.close();
 	return 1;
 }
+
 
 Feild::~Feild()
 {

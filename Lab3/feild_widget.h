@@ -19,12 +19,12 @@ public slots:
 	void StartPlay() {state = PLAY; time->start(0); time->setInterval(time_interval_ms);};
 	void StopPlay() {state = REST; time->stop();};
 	void Clear();
+	void changeSize( int length_, int height_ );
 
 protected:
 	void paintEvent(QPaintEvent *) override;
 	void mousePressEvent(QMouseEvent *event);
 	void mouseMoveEvent( QMouseEvent * event );
-	void scalingTime(qreal x);
 
 private:
 	Feild *feild;
@@ -32,6 +32,7 @@ private:
 	int dx_cell,dy_cell;
 	void DrawGrid(QPainter *painter);
 	void DrawCells(QPainter *painter);
+	inline void resizeFeild( int length_, int width_ );
 
 	QTimer *time;
 	
