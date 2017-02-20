@@ -1,6 +1,6 @@
 package Lab1.commands.FlowCom;
 
-import Lab1.commands.FlowCom.FlowCommand;
+import FlowCommand;
 
 public class UP extends FlowCommand {
 	public UP(Flow f) {
