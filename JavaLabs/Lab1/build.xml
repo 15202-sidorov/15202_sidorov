@@ -1,0 +1,24 @@
+<project name= "Lab1" default= "dist" basedir= ".">
+	<description>
+		Buildfile for BeFunge interpreter.
+	</description>
+
+<property name= "src" location= "src"/>
+<property name= "build" location= "build"/>
+<property name= "dist" location= "dist"/>
+<property name= "test" location= "test"/>
+
+<target name= "init">
+	<tstamp/>
+	<mkdir dir= "${build}"/>
+</target>
+
+<target name= "compile" depends= "init" description= "compile the source code">
+	<javac srcdir= "${src}" destdir= "${build}"/>
+
+</target>
+
+<target name= "clean" description= "clean everything up">
+	<delete dir="${build}"/>
+</target>
+</project>

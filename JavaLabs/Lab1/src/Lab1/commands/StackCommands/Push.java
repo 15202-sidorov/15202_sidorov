@@ -6,7 +6,10 @@ import Lab1.ProgramProperties;
 
 public class Push implements Command {
 
-	public void execute( ProgramProperties prop, Integer value ) {
-		prop.getStack().push(value);
+	public void execute( ProgramProperties prop ) {
+		Stack<Integer> stack = prop.getStack();
+		Integer value = (Integer)((char)prop.getInputValue() - '0');
+
+		stack.push(value);
 	}
 }

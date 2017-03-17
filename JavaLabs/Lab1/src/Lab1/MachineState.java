@@ -6,6 +6,7 @@ public class MachineState implements ProgramProperties {
 	public MachineState(String src_filename) throws Exception {
 		stack = new Stack<Integer>();
 		flow = new Flow(src_filename);
+		inputValue = null;
 	}
 
 	public Flow getFlow() {

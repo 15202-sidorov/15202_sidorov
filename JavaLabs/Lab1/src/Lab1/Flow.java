@@ -10,6 +10,11 @@ public class Flow {
 		x = 0;
 		y = 0;
 		charArray = new char[x_max][y_max];
+		for (int i = 0; i < x_max; i++) {
+			for (int j = 0; j < y_max; j++) {
+				charArray[i][j] = ' ';
+			}
+		}
 
 		readFromFile();
 		in.close();
@@ -37,8 +42,24 @@ public class Flow {
 			result = charArray[x][y];
 			//System.out.println("Getting char at"+x+" "+y);
 			moveForward();
+			if ((' ' == result) && (CharMode.ON == mode)){
+				return result;
+			}
 		}
 		return result;
+	}
+
+	public void changeSymbol(int x, int y, char value) {
+		x = x % x_max;
+		y = y % y_max;
+		charArray[x][y] = value;
+		return;
+	}
+
+	public char getSymbol(int x, int y) {
+		x = x % x_max;
+		y = y % y_max;
+		return charArray[x][y];
 	}
 
 	private void handleXCoordinate() {
@@ -46,7 +67,7 @@ public class Flow {
 			x = 0;
 		}
 		else if ( x < 0 ) {
-			x = x_max;
+			x = x_max - 1;
 		}
 	}
 
@@ -55,7 +76,7 @@ public class Flow {
 			y = 0;
 		}
 		else if (y < 0) {
-			y = y_max;
+			y = y_max - 1;
 		}
 	}
 
@@ -128,13 +149,14 @@ public class Flow {
 		int j = 0;
 		while(( 0 != in.available() )  && (i < y_max)){
 			j = 0;
-			while (( 0 != in.available() )){
+			while (( 0 != in.available() ) && (j < x_max)){
 				next = in.read();
 				if (next != (int)'\n') {
 					charArray[j][i] = (char)next;
 					//System.out.println("Reading char "+j+" "+i+" "+(char)next);
 				}
 				else {
+					charArray[j][i] = ' ';
 					break;
 				}
 				j++;
@@ -150,8 +172,18 @@ public class Flow {
 		}*/
 	}
 
-	private static final int x_max = 13;
-	private static final int y_max = 13;
+	public void switchMode() {
+		if (CharMode.ON == mode) {
+			mode = CharMode.OFF;
+		}
+		else {
+			mode = CharMode.ON;
+		}
+		return;
+	}
+
+	private static final int x_max = 50;
+	private static final int y_max = 50;
 	
 	private FileInputStream in;
 	private int x;
@@ -160,6 +192,10 @@ public class Flow {
 	private enum Direction {
 		RIGHT, LEFT, UP, DOWN
 	}
+	private enum CharMode {
+		ON, OFF
+	}
 
+	private CharMode mode = CharMode.OFF;
 	private Direction nextByte = Direction.RIGHT;
 }

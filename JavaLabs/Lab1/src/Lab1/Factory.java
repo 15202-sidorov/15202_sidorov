@@ -7,16 +7,8 @@ import java.util.Properties;
 import java.util.*;
 import java.io.*;
 
-//close file
-//отдать ресурс
-//finally config close() -- executes always
-//mutable not mutable
-
-//dispose pattern
-//getresourse as stream -- searching in Class Path -> config.load();
-
 public final class Factory {
-	public Factory() throws Exception {
+	public Factory() throws FactoryException {
 		try {
 			commands = new HashMap<Character,Class>();
 			inputStream = getClass().getClassLoader().getResourceAsStream("configfile.properties");

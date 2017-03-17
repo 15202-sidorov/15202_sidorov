@@ -1,4 +1,4 @@
-package Lab1.commands.StackCom;
+package Lab1.commands.StackCommands;
 
 import java.util.Stack;
 import Lab1.commands.Command;
@@ -8,6 +8,7 @@ public class PopChar implements Command {
 
 	public void execute( ProgramProperties prop ) {
 		Stack<Integer> stack = prop.getStack();
-		System.out.print((char)stack.pop());
+		int value = stack.pop();
+		System.out.print((char)value+"");
 	}
 }

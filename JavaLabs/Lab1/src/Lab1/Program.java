@@ -9,9 +9,21 @@ import Lab1.commands.FlowCommand.*;
 
 public class Program {
 
-	public static void execute() throws Exception {
-		ProgramProperties machine = new MachineState("srccode.bfng");
-		Factory factory = new Factory();
+	public static void execute() {
+		Factory factory = null;
+		ProgramProperties machine = null;
+		try {
+			factory = new Factory();
+			machine = new MachineState("srccode.bfng");
+		}
+		catch(FactoryException exc) {
+			System.out.println("Could not load properties.");
+			return;
+		}
+		catch(Exception exc) {
+			System.out.println("Properties failed to be created.");
+			return;
+		}
 
 		char nextChar = 0;
 		Command nextCommand = null;
@@ -19,14 +31,15 @@ public class Program {
 		Stack<Integer> stack = machine.getStack();
 
 		while ( nextChar != '@' ) {
-			nextChar = flow.getNextChar();
-			System.out.println("Next char is : " + nextChar);
-			if ((nextChar <= '9') && (nextChar >= '0')) {
-				stack.push(nextChar - '0');
-			}
-			else{
+			try {
+				nextChar = flow.getNextChar();
+				machine.assignInputValue(nextChar);
 				nextCommand = factory.makeProduct(nextChar);
 				nextCommand.execute(machine);
+			}
+			catch(FactoryException exc) {
+				System.out.println("Could not find symbol.");
+				return;
 			}
 		}
 	}
