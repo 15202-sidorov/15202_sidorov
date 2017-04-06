@@ -12,16 +12,15 @@ public abstract class MapItem {
         Y_coordinate = y;
         x_max = xm;
         y_max = ym;
-        moves = Direction.STILL;
+        handleCoordinates();
     }
 
-    public void changeDirection(Direction d) {
-        moves = d;
+    public int getX_coordinate() {
+        return X_coordinate;
     }
 
-    public enum Direction {
-        RIGHT, LEFT,
-        UP, DOWN, STILL
+    public int getY_coordinate() {
+        return Y_coordinate;
     }
 
     protected void handleCoordinates() {
@@ -32,7 +31,6 @@ public abstract class MapItem {
     protected final int x_max;
     protected final int y_max;
 
-    protected Direction moves;
     protected int X_coordinate;
     protected int Y_coordinate;
 }

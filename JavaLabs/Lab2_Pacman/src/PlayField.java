@@ -1,34 +1,77 @@
 import Map_Items.*;
 
-import java.io.File;
-
 /**
     Interface : can change pacman's direction only
-    What playfield does :
-        -- Controls the game
-        -- Controls ghosts
-        -- Counts HP and so forth
+    Playfield holds all the resourses the game will need
+
+    The playfield comes from some sort of file of type :
+        sizeof field (x,y)
+        ---------------------------------------------------------------
+        * - Wall
+        - - Empty Field
+        ! - Start spot for Ghosts (should be more then amount of ghosts)
+        + - Pacman start spot
+
  */
 
 public class PlayField {
     public PlayField() {
-        //ghosts are born in the center of the map (find awailable place)
-        //pacman is on the (0,0) coordinate or right ...
-
+        setField();
+        locateGhosts();
+        locatePacman();
     }
 
-    public void changePacmanDirection(MapItem.Direction d) {
-        pacman.changeDirection(d);
+    public PacmanUnit getPacman() {
+        return pacman;
     }
 
-
-
-    private void setField(File file) {
-
+    public GhostUnit[] getGhosts() {
+        return ghosts;
     }
 
-    private MapItem[] field;
-    private int HP;
+    public StillItem[][] getMap() {
+        return field;
+    }
+
+    private void locatePacman() {
+        pacman = new PacmanUnit(X_Pacman_Start,Y_Pacman_Start,width, height);
+    }
+
+    private void locateGhosts() {
+        ghosts = new GhostUnit[ghostsCount];
+        for (int i = 0; i < ghostsCount; i++) {
+            ghosts[i] = new GhostUnit(X_Ghost_Birth[i],Y_Ghost_Birth[i],height,width);
+        }
+    }
+
+    private void setField() {
+        //just a test field for now
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                field[i][j] = new EmptyField(i,j,width,height);
+            }
+        }
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                field[i][j] = new Wall(i,j,width,height);
+            }
+        }
+
+        for (int i = 6; i < 12; i++) {
+            for (int j = 7; j < 13; j++) {
+                field[i][j] = new Wall(i,j,width,height);
+            }
+        }
+
+        for (int i = 18; i < 20; i++) {
+            for (int j = 0; j < 3; j++) {
+                field[i][j] = new Wall(i,j,width, height);
+            }
+        }
+    }
+
+    private StillItem[][] field;
     private GhostUnit[] ghosts;
     private PacmanUnit pacman;
 
@@ -36,9 +79,9 @@ public class PlayField {
     private final int height = 20;
     private final int ghostsCount = 4;
 
-    private final int X_Ghost_Birth;
-    private final int Y_Ghost_Birth;
+    private int[] X_Ghost_Birth = { 8, 9,10,11};
+    private int[] Y_Ghost_Birth = {14,14,14,14};
 
-    private final int X_Pacman_Start;
-    private final int Y_Pacman_Start;
+    private int X_Pacman_Start = 4;
+    private int Y_Pacman_Start = 4;
 }
