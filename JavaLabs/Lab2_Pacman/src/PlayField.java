@@ -33,6 +33,14 @@ public class PlayField {
         return field;
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
     private void locatePacman() {
         pacman = new PacmanUnit(X_Pacman_Start,Y_Pacman_Start,width, height);
     }
@@ -46,6 +54,7 @@ public class PlayField {
 
     private void setField() {
         //just a test field for now
+        field = new StillItem[width][height];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 field[i][j] = new EmptyField(i,j,width,height);
