@@ -1,8 +1,8 @@
 import Map_Items.*;
 
 public class GameRunner {
-    public GameRunner() {
-        field = new PlayField();
+    public GameRunner(PlayField field_v) {
+        field = field_v;
     }
 
     public int nextItaration() throws Exception {
@@ -11,15 +11,18 @@ public class GameRunner {
         if ( possibleToMove(pacman) ) {
             pacman.moveForward();
         }
-        for (GhostUnit g : ghosts) {
-            if (possibleToMove(g)) {
-                g.moveForward();
+
+            if ( possibleToMove(ghosts[0]) ) {
+                ghosts[0].moveForward();
             }
-            if (g.getX_coordinate() == pacman.getX_coordinate() ||
-                g.getY_coordinate() == pacman.getY_coordinate()) {
+            else {
+                ghosts[0].changeDirectionToAnother();
+            }
+            if (ghosts[0].getX_coordinate() == pacman.getX_coordinate() ||
+                ghosts[0].getY_coordinate() == pacman.getY_coordinate()) {
                 pacman.kill();
             }
-        }
+
         return pacman.getHP();
     }
 
@@ -32,18 +35,39 @@ public class GameRunner {
     }
 
     private boolean possibleToMove(Movable unit) throws Exception {
-        int nextX = unit.getX_coordinate() + 1;
-        int nextY = unit.getY_coordinate() + 1;
+        Movable.Direction d = unit.getDirection();
+        byte dx = 0;
+        byte dy = 0;
+        switch(d) {
+            case RIGHT :
+                dx = 1;
+                break;
+            case LEFT :
+                dx = -1;
+                break;
+            case DOWN :
+                dy = 1;
+                break;
+            case UP :
+                dy = -1;
+                break;
+        }
+
+        int nextX = (unit.getX_coordinate() + dx) % field.getWidth();
+        int nextY = (unit.getY_coordinate() + dy) % field.getHeight();
         StillItem[][] map = field.getMap();
-        if (map[nextX][nextY].getClass() == Class.forName("Wall")) {
-            return false;
-        }
-        else if (map[nextX][nextY].getClass() == Class.forName("EmptyField")) {
-            return true;
-        }
-        else {
+        try {
+            System.out.println(map[nextX][nextY].getClass().toString());
+            if (map[nextX][nextY].getClass() == Class.forName("Map_Items.EmptyField")) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Class Not found");
             throw new Exception();
         }
     }
+
     private PlayField field;
 }

@@ -15,10 +15,10 @@ public abstract class Movable extends MapItem {
                 Y_coordinate--;
                 break;
             case LEFT:
-                X_coordinate++;
+                X_coordinate--;
                 break;
             case RIGHT:
-                X_coordinate--;
+                X_coordinate++;
                 break;
             case UP:
                 Y_coordinate++;
@@ -30,6 +30,23 @@ public abstract class Movable extends MapItem {
 
     public void changeDirection( Direction d ) {
         moves = d;
+    }
+
+    public void changeDirectionToAnother() {
+        switch (moves) {
+            case RIGHT :
+                moves = Direction.UP;
+                break;
+            case LEFT :
+                moves = Direction.DOWN;
+                break;
+            case UP :
+                moves = Direction.RIGHT;
+                break;
+            case DOWN :
+                moves = Direction.LEFT;
+                break;
+        }
     }
 
     public Direction getDirection() {

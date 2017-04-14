@@ -4,14 +4,6 @@ import Map_Items.*;
     Interface : can change pacman's direction only
     Playfield holds all the resourses the game will need
 
-    The playfield comes from some sort of file of type :
-        sizeof field (x,y)
-        ---------------------------------------------------------------
-        * - Wall
-        - - Empty Field
-        ! - Start spot for Ghosts (should be more then amount of ghosts)
-        + - Pacman start spot
-
  */
 
 public class PlayField {
