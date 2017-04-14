@@ -29,22 +29,37 @@ class PacmanGame extends JFrame{
         getContentPane().add(mainField);
         setUnits(mainField);
         setMap(mainField);
+        addKeyListener(new KeyHandler());
     }
 
     public void startGame() {
         Timer t = new Timer();
-        t.scheduleAtFixedRate(new doEachItaration(),1000,1000);
-        repaint();
+        t.scheduleAtFixedRate(new doEachItaration(),0,MSEC_PER_ITARATION);
+        pacman.setLocation(pacmanLocation);
+        ghost[0].setLocation(ghostLocation[0]);
+       /* if ((logicCore.getPacman().getDirection() == Movable.Direction.RIGHT) ||
+                (logicCore.getPacman().getDirection() == Movable.Direction.LEFT)) {
+            t.scheduleAtFixedRate(new moveUnits(),0,MSEC_PER_ITARATION/cellWidth);
+        }
+        else {
+            t.scheduleAtFixedRate(new moveUnits(),0,MSEC_PER_ITARATION/cellHeight);
+        }*/
 
     }
 
     private class doEachItaration extends TimerTask {
         @Override
         public void run() {
-            countPacmanLocation();
-            countGhostLocation(0);
+
+            if (logicCore.getPacman().getHP() == 0) {
+                cancel();
+                return;
+            }
             try {
                 logicRunner.nextItaration();
+                countPacmanLocation();
+                countGhostLocation(0);
+                repaint();
             } catch (Exception ex) {
                 System.out.println("Exception caught while itarating");
                 return;
@@ -54,12 +69,43 @@ class PacmanGame extends JFrame{
         }
     }
 
+    private class moveUnits extends TimerTask {
+        public void run() {
+            switch(logicCore.getPacman().getDirection()) {
+                case RIGHT :
+                    pacman.setLocation(pacman.getX() + 1,pacman.getY());
+                    break;
+                case LEFT :
+                    pacman.setLocation(pacman.getY() - 1,pacman.getY());
+                    break;
+                case UP :
+                    pacman.setLocation(pacman.getX(), pacman.getY() - 1);
+                    break;
+                case DOWN :
+                    pacman.setLocation(pacman.getX(), pacman.getY() + 1);
+                    break;
+            }
+        }
+    }
+
     private class KeyHandler extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_KP_DOWN) {
-                logicRunner.changePacmanDirection(Movable.Direction.DOWN);
+            switch(e.getKeyCode()) {
+                case KeyEvent.VK_DOWN :
+                    logicCore.getPacman().changeDirection(Movable.Direction.DOWN);
+                    break;
+                case KeyEvent.VK_UP :
+                    logicCore.getPacman().changeDirection(Movable.Direction.UP);
+                    break;
+                case KeyEvent.VK_RIGHT :
+                    logicCore.getPacman().changeDirection(Movable.Direction.RIGHT);
+                    break;
+                case KeyEvent.VK_LEFT :
+                    logicCore.getPacman().changeDirection(Movable.Direction.LEFT);
+                    break;
             }
+
         }
 
     }
@@ -125,6 +171,7 @@ class PacmanGame extends JFrame{
     private Point pacmanLocation = new Point();
     private Point[] ghostLocation =  new Point[GHOST_COUNT];
 
+    final private static int MSEC_PER_ITARATION = 1000;
     final private static int GHOST_COUNT = 4;
 
     final private static String resourcePath = "/home/ilia/Proga/15202_sidorov/JavaLabs/Lab2_Pacman/resource/";

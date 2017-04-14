@@ -24,6 +24,12 @@ public abstract class MapItem {
     }
 
     protected void handleCoordinates() {
+        if (X_coordinate < 0) {
+            X_coordinate = x_max - 1 ;
+        }
+        if (Y_coordinate < 0) {
+            Y_coordinate = y_max - 1;
+        }
         X_coordinate %= x_max;
         Y_coordinate %= y_max;
     }

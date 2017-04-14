@@ -1,4 +1,6 @@
 import Map_Items.*;
+import static java.lang.Math.abs;
+
 
 public class GameRunner {
     public GameRunner(PlayField field_v) {
@@ -18,9 +20,10 @@ public class GameRunner {
             else {
                 ghosts[0].changeDirectionToAnother();
             }
-            if (ghosts[0].getX_coordinate() == pacman.getX_coordinate() ||
+            if (ghosts[0].getX_coordinate() == pacman.getX_coordinate() &&
                 ghosts[0].getY_coordinate() == pacman.getY_coordinate()) {
-                pacman.kill();
+                System.out.println("Ou");
+            pacman.kill();
             }
 
         return pacman.getHP();
@@ -53,8 +56,8 @@ public class GameRunner {
                 break;
         }
 
-        int nextX = (unit.getX_coordinate() + dx) % field.getWidth();
-        int nextY = (unit.getY_coordinate() + dy) % field.getHeight();
+        int nextX = abs((unit.getX_coordinate() + dx) % field.getWidth());
+        int nextY = abs((unit.getY_coordinate() + dy) % field.getHeight());
         StillItem[][] map = field.getMap();
         try {
             System.out.println(map[nextX][nextY].getClass().toString());

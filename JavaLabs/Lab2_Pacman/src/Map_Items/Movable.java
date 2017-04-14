@@ -12,7 +12,7 @@ public abstract class Movable extends MapItem {
     public void moveForward() {
         switch (moves) {
             case DOWN:
-                Y_coordinate--;
+                Y_coordinate++;
                 break;
             case LEFT:
                 X_coordinate--;
@@ -21,7 +21,7 @@ public abstract class Movable extends MapItem {
                 X_coordinate++;
                 break;
             case UP:
-                Y_coordinate++;
+                Y_coordinate--;
                 break;
         }
 
