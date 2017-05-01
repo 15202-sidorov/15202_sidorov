@@ -22,8 +22,10 @@ public class main {
 
 class PacmanGame extends JFrame{
     public PacmanGame() {
-        setSize(width,height);
         setTitle("Pacman");
+        setResizable(false);
+        setLayout(null);
+        setSize(width,height);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         FieldPanel mainField = new FieldPanel();
         getContentPane().add(mainField);
@@ -31,17 +33,19 @@ class PacmanGame extends JFrame{
         setVisible(true);
     }
 
-    private int width = 900;
+    private int width = 600;
     private int height = 600;
 }
 
 class FieldPanel extends JPanel {
     FieldPanel() {
-        setSize(width,height);
         setOpaque(true);
+        setSize(width, height);
         setLayout(null);
         setFocusable(true);
-        addKeyListener(new KeyHandler());
+        setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        setBackground(Color.BLACK);
+        addKeyListener(new DirectionHandler());
         countPacmanLocation();
         countGhostLocation(0);
         currentPacmanLocation = pacmanLocation;
@@ -80,7 +84,7 @@ class FieldPanel extends JPanel {
 
     private void setMap(Graphics g) {
         StillItem[][] stillItemsFromGame = logicCore.getMap();
-        g.setColor(Color.DARK_GRAY);
+        g.setColor(Color.BLUE);
         for (int i = 0; i < logicCore.getWidth(); i++) {
             for (int j = 0; j < logicCore.getHeight(); j++) {
                 try {
@@ -102,7 +106,7 @@ class FieldPanel extends JPanel {
 
     void startGame() {
         synchronized (this) {
-           mainTimer.scheduleAtFixedRate(new doEachItartion(), 0, MSEC_PER_ITARATION);
+            mainTimer.scheduleAtFixedRate(new doEachItartion(), 0, MSEC_PER_ITARATION);
             littleTimer.scheduleAtFixedRate(new doMove(), 0, MSEC_PER_ITARATION / cellWidth);
         }
     }
@@ -169,7 +173,7 @@ class FieldPanel extends JPanel {
         }
     }
 
-    private class KeyHandler extends KeyAdapter {
+    private class DirectionHandler extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
             switch(e.getKeyCode()) {
@@ -202,7 +206,7 @@ class FieldPanel extends JPanel {
     private PlayField logicCore = new PlayField();
     private GameRunner logicRunner = new GameRunner(logicCore);
 
-    private final int width = 900;
+    private final int width = 600;
     private final int height = 600;
 
     private int cellWidth = width / logicCore.getWidth();
@@ -219,7 +223,7 @@ class FieldPanel extends JPanel {
     private Image workingPacmanImage;
     private Image[] workingGhostsImage = new Image[GHOST_COUNT];
 
-    final private static int MSEC_PER_ITARATION = 450;
+    final private static int MSEC_PER_ITARATION = 300;
     final private static int GHOST_COUNT = 4;
     final private static String resourcePath = "/home/ilia/15202_sidorov/JavaLabs/Lab2_Pacman/resource/";
 }

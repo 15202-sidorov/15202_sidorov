@@ -23,7 +23,14 @@ public class GameRunner {
             if (ghosts[0].getX_coordinate() == pacman.getX_coordinate() &&
                 ghosts[0].getY_coordinate() == pacman.getY_coordinate()) {
                 System.out.println("Ou");
-            pacman.kill();
+                pacman.kill();
+            }
+            else if ((ghosts[0].getX_coordinate() + dx == pacman.getX_coordinate()) &&
+                ghosts[0].getY_coordinate() + dy == pacman.getY_coordinate()) {
+                if (ghosts[0].getDirection() != pacman.getDirection()) {
+                    System.out.println("Ouuuu");
+                    pacman.kill();
+                }
             }
 
         return pacman.getHP();
@@ -39,8 +46,8 @@ public class GameRunner {
 
     private boolean possibleToMove(Movable unit) throws Exception {
         Movable.Direction d = unit.getDirection();
-        byte dx = 0;
-        byte dy = 0;
+        dx = 0;
+        dy = 0;
         switch(d) {
             case RIGHT :
                 dx = 1;
@@ -72,5 +79,8 @@ public class GameRunner {
         }
     }
 
+    //direction in which unit is movin'
+    private int dy = 0;
+    private int dx = 0;
     private PlayField field;
 }
