@@ -27,7 +27,7 @@ class PacmanGame extends JFrame{
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         FieldPanel mainField = new FieldPanel();
         getContentPane().add(mainField);
-        //mainField.startGame();
+        mainField.startGame();
         setVisible(true);
     }
 
@@ -40,8 +40,15 @@ class FieldPanel extends JPanel {
         setSize(width,height);
         setOpaque(true);
         setLayout(null);
+        setFocusable(true);
+        addKeyListener(new KeyHandler());
         countPacmanLocation();
         countGhostLocation(0);
+        currentPacmanLocation = pacmanLocation;
+        for (int i = 0; i < GHOST_COUNT; i++) {
+            currentGhostLocation[i] = ghostLocation[i];
+
+        }
         BufferedImage originalPacmanImage;
         BufferedImage originalGhostImage;
         try {
@@ -54,19 +61,19 @@ class FieldPanel extends JPanel {
         }
 
         int scaledImageSize = 0;
-        if (originalPacmanImage.getHeight() > originalPacmanImage.getWidth()) {
-            scaledImageSize = originalPacmanImage.getWidth();
+        if (cellHeight > cellWidth) {
+            scaledImageSize = cellWidth;
         }
         else {
-            scaledImageSize = originalPacmanImage.getHeight();
+            scaledImageSize = cellHeight;
         }
 
         workingPacmanImage = originalPacmanImage.getScaledInstance(scaledImageSize,scaledImageSize,Image.SCALE_DEFAULT);
         workingGhostsImage[0] = originalGhostImage.getScaledInstance(scaledImageSize,scaledImageSize,Image.SCALE_DEFAULT);
-
     }
 
     public void paintComponent(Graphics g) {
+        super.paintComponent(g);
         setMap(g);
         setUnits(g);
     }
@@ -89,8 +96,77 @@ class FieldPanel extends JPanel {
     }
 
     private void setUnits(Graphics g) {
-        g.drawImage(workingPacmanImage,pacmanLocation.x,pacmanLocation.y,null);
-        g.drawImage(workingGhostsImage[0],ghostLocation[0].x,ghostLocation[0].y,null);
+        g.drawImage(workingPacmanImage,currentPacmanLocation.x,currentPacmanLocation.y,null);
+        g.drawImage(workingGhostsImage[0],currentGhostLocation[0].x,currentGhostLocation[0].y,null);
+    }
+
+    void startGame() {
+        synchronized (this) {
+           mainTimer.scheduleAtFixedRate(new doEachItartion(), 0, MSEC_PER_ITARATION);
+            littleTimer.scheduleAtFixedRate(new doMove(), 0, MSEC_PER_ITARATION / cellWidth);
+        }
+    }
+
+    private class doEachItartion extends TimerTask {
+        public void run() {
+            try {
+                logicRunner.nextItaration();
+            }
+            catch(Exception ex) { System.out.println("Exception caught while itarating"); }
+
+            countPacmanLocation();
+            for (int i = 0; i < GHOST_COUNT; i++) {
+                countGhostLocation(i);
+            }
+            repaint();
+        }
+    }
+
+    private class doMove extends TimerTask {
+        public void run() {
+            if ((pacmanLocation.x == 0) || (pacmanLocation.x == (logicCore.getWidth() - 1)*cellWidth )) {
+                currentPacmanLocation.x = pacmanLocation.x;
+            }
+            else if (pacmanLocation.x > currentPacmanLocation.x) {
+                currentPacmanLocation.x++;
+            }
+            else if (pacmanLocation.x < currentPacmanLocation.x) {
+                currentPacmanLocation.x--;
+            }
+
+            if ((pacmanLocation.y == 0) || (pacmanLocation.y == (logicCore.getHeight() - 1)*cellHeight )) {
+                currentPacmanLocation.y = pacmanLocation.y;
+            }
+            else if (pacmanLocation.y > currentPacmanLocation.y) {
+                currentPacmanLocation.y++;
+            }
+            else if (pacmanLocation.y < currentPacmanLocation.y) {
+                currentPacmanLocation.y--;
+            }
+
+            for (int i = 0; i < 1; i++) {
+                if ((ghostLocation[i].x == 0) || (ghostLocation[i].x == (logicCore.getWidth() - 1)*cellWidth )) {
+                    currentGhostLocation[i].x = ghostLocation[i].x;
+                }
+                else if (ghostLocation[i].x > currentGhostLocation[i].x) {
+                    currentGhostLocation[i].x++;
+                }
+                else if (ghostLocation[i].x < currentGhostLocation[i].x) {
+                    currentGhostLocation[i].x--;
+                }
+
+                if ((ghostLocation[i].y == 0) || (ghostLocation[i].y == (logicCore.getHeight() - 1)*cellHeight )) {
+                    currentGhostLocation[i].y = ghostLocation[i].y;
+                }
+                else if (ghostLocation[i].y > currentGhostLocation[i].y) {
+                    currentGhostLocation[i].y++;
+                }
+                else if (ghostLocation[i].y < currentGhostLocation[i].y) {
+                    currentGhostLocation[i].y--;
+                }
+            }
+            repaint();
+        }
     }
 
     private class KeyHandler extends KeyAdapter {
@@ -132,14 +208,18 @@ class FieldPanel extends JPanel {
     private int cellWidth = width / logicCore.getWidth();
     private int cellHeight = height / logicCore.getHeight();
     private Timer mainTimer = new Timer();
+    private Timer littleTimer = new Timer();
 
     private Point pacmanLocation = new Point();
     private Point[] ghostLocation =  new Point[GHOST_COUNT];
 
+    private Point currentPacmanLocation = new Point();
+    private Point[] currentGhostLocation = new Point[GHOST_COUNT];
+
     private Image workingPacmanImage;
     private Image[] workingGhostsImage = new Image[GHOST_COUNT];
 
-    final private static int MSEC_PER_ITARATION = 1000;
+    final private static int MSEC_PER_ITARATION = 450;
     final private static int GHOST_COUNT = 4;
     final private static String resourcePath = "/home/ilia/15202_sidorov/JavaLabs/Lab2_Pacman/resource/";
 }
