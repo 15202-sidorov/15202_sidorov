@@ -7,6 +7,8 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -46,34 +48,18 @@ class FieldPanel extends JPanel {
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         setBackground(Color.BLACK);
         addKeyListener(new DirectionHandler());
-        countPacmanLocation();
-        countGhostLocation(0);
+        refreshLogicLocations();
         currentPacmanLocation = pacmanLocation;
         for (int i = 0; i < GHOST_COUNT; i++) {
             currentGhostLocation[i] = ghostLocation[i];
-
         }
-        BufferedImage originalPacmanImage;
-        BufferedImage originalGhostImage;
+
         try {
-            originalPacmanImage = ImageIO.read(new File(resourcePath + "pacmanright.png"));
-            originalGhostImage = ImageIO.read(new File(resourcePath + "slyde1.png"));
+            getImages();
         }
-        catch(IOException ex){
-            System.out.println("IOException caught while reading imagies");
-            return;
+        catch(IOException ex) {
+            System.out.println("could not load properites");
         }
-
-        int scaledImageSize = 0;
-        if (cellHeight > cellWidth) {
-            scaledImageSize = cellWidth;
-        }
-        else {
-            scaledImageSize = cellHeight;
-        }
-
-        workingPacmanImage = originalPacmanImage.getScaledInstance(scaledImageSize,scaledImageSize,Image.SCALE_DEFAULT);
-        workingGhostsImage[0] = originalGhostImage.getScaledInstance(scaledImageSize,scaledImageSize,Image.SCALE_DEFAULT);
     }
 
     public void paintComponent(Graphics g) {
@@ -101,7 +87,10 @@ class FieldPanel extends JPanel {
 
     private void setUnits(Graphics g) {
         g.drawImage(workingPacmanImage,currentPacmanLocation.x,currentPacmanLocation.y,null);
-        g.drawImage(workingGhostsImage[0],currentGhostLocation[0].x,currentGhostLocation[0].y,null);
+        for (int i = 0; i < GHOST_COUNT; i++) {
+            g.drawImage(workingGhostsImage[i],currentGhostLocation[i].x,currentGhostLocation[i].y,null);
+
+        }
     }
 
     void startGame() {
@@ -111,17 +100,77 @@ class FieldPanel extends JPanel {
         }
     }
 
+    private void getImages() throws IOException {
+        int scaledImageSize = 0;
+        if (cellHeight > cellWidth) {
+            scaledImageSize = cellWidth;
+        }
+        else {
+            scaledImageSize = cellHeight;
+        }
+
+        BufferedImage originalPacmanImage;
+        BufferedImage[] originalGhostImage = new BufferedImage[GHOST_COUNT];
+
+        switch(logicCore.getPacman().getDirection()) {
+            case RIGHT :
+                originalPacmanImage = ImageIO.read(new File(resourcePath + "pacmanright.png"));
+                break;
+            case LEFT :
+                originalPacmanImage = ImageIO.read(new File(resourcePath + "pacmanleft.png"));
+                break;
+            case UP :
+                originalPacmanImage = ImageIO.read(new File(resourcePath + "pacmanup.png"));
+                break;
+            case DOWN :
+                originalPacmanImage = ImageIO.read(new File(resourcePath + "pacmandown.png"));
+                break;
+            default:
+                originalPacmanImage = ImageIO.read(new File(resourcePath + "pacmanright.png"));
+                break;
+        }
+
+        workingPacmanImage = originalPacmanImage.getScaledInstance(scaledImageSize,scaledImageSize,Image.SCALE_DEFAULT);
+
+
+        for (int i = 0; i < GHOST_COUNT; i++) {
+            switch(logicCore.getGhosts()[i].getDirection()) {
+                case RIGHT :
+                    originalGhostImage[i] = ImageIO.read(new File(resourcePath + "slyde" + (i + 1) + "right.png"));
+                    break;
+                case LEFT :
+                    originalGhostImage[i] = ImageIO.read(new File(resourcePath + "slyde" + (i + 1)+ "left.png"));
+                    break;
+                case UP :
+                    originalGhostImage[i] = ImageIO.read(new File(resourcePath + "slyde" + (i + 1) + "up.png"));
+                    break;
+                case DOWN :
+                    originalGhostImage[i] = ImageIO.read(new File(resourcePath + "slyde" + (i + 1) + "down.png"));
+                    break;
+                default:
+                    originalGhostImage[i] = ImageIO.read(new File(resourcePath + "slyde" + (i + 1) + "right.png"));
+                    break;
+            }
+            workingGhostsImage[i] = originalGhostImage[i].getScaledInstance(scaledImageSize,scaledImageSize,Image.SCALE_DEFAULT);
+        }
+    }
+
+    private void refreshLogicLocations() {
+        countPacmanLocation();
+        for (int i = 0; i < GHOST_COUNT; i++) {
+            countGhostLocation(i);
+        }
+    }
+
     private class doEachItartion extends TimerTask {
         public void run() {
             try {
                 logicRunner.nextItaration();
+                getImages();
             }
             catch(Exception ex) { System.out.println("Exception caught while itarating"); }
 
-            countPacmanLocation();
-            for (int i = 0; i < GHOST_COUNT; i++) {
-                countGhostLocation(i);
-            }
+            refreshLogicLocations();
             repaint();
         }
     }
@@ -148,7 +197,7 @@ class FieldPanel extends JPanel {
                 currentPacmanLocation.y--;
             }
 
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < GHOST_COUNT; i++) {
                 if ((ghostLocation[i].x == 0) || (ghostLocation[i].x == (logicCore.getWidth() - 1)*cellWidth )) {
                     currentGhostLocation[i].x = ghostLocation[i].x;
                 }
@@ -223,9 +272,11 @@ class FieldPanel extends JPanel {
     private Image workingPacmanImage;
     private Image[] workingGhostsImage = new Image[GHOST_COUNT];
 
+    private String resourcePath = "/home/ilia/15202_sidorov/JavaLabs/Lab2_Pacman/resource/";
+
     final private static int MSEC_PER_ITARATION = 300;
-    final private static int GHOST_COUNT = 4;
-    final private static String resourcePath = "/home/ilia/15202_sidorov/JavaLabs/Lab2_Pacman/resource/";
+    final private static int GHOST_COUNT = 3;
+
 }
 
 

@@ -13,26 +13,24 @@ public class GameRunner {
         if ( possibleToMove(pacman) ) {
             pacman.moveForward();
         }
-
-            if ( possibleToMove(ghosts[0]) ) {
-                ghosts[0].moveForward();
+        for (int i = 0; i < 3; i++) {
+            if (possibleToMove(ghosts[i])) {
+                ghosts[i].moveForward();
+            } else {
+                ghosts[i].changeDirectionToAnother();
             }
-            else {
-                ghosts[0].changeDirectionToAnother();
-            }
-            if (ghosts[0].getX_coordinate() == pacman.getX_coordinate() &&
-                ghosts[0].getY_coordinate() == pacman.getY_coordinate()) {
+            if (ghosts[i].getX_coordinate() == pacman.getX_coordinate() &&
+                    ghosts[i].getY_coordinate() == pacman.getY_coordinate()) {
                 System.out.println("Ou");
                 pacman.kill();
-            }
-            else if ((ghosts[0].getX_coordinate() + dx == pacman.getX_coordinate()) &&
-                ghosts[0].getY_coordinate() + dy == pacman.getY_coordinate()) {
-                if (ghosts[0].getDirection() != pacman.getDirection()) {
+            } else if ((ghosts[i].getX_coordinate() + dx == pacman.getX_coordinate()) &&
+                    ghosts[i].getY_coordinate() + dy == pacman.getY_coordinate()) {
+                if (ghosts[i].getDirection() != pacman.getDirection()) {
                     System.out.println("Ouuuu");
                     pacman.kill();
                 }
             }
-
+        }
         return pacman.getHP();
     }
 
