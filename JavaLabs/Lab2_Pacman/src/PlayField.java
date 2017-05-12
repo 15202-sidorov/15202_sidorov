@@ -47,9 +47,12 @@ public class PlayField {
     private void setField() {
         //just a test field for now
         field = new StillItem[width][height];
+        EmptyField currentEmptyField;
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 field[i][j] = new EmptyField(i,j,width,height);
+                currentEmptyField = (EmptyField)field[i][j];
+                currentEmptyField.placeCoin();
             }
         }
 

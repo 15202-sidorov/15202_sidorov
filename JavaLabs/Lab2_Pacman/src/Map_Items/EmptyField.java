@@ -18,6 +18,10 @@ public class EmptyField extends  StillItem {
         coin = false;
     }
 
+    public boolean hasCoin() {
+        return coin;
+    }
+
     private boolean coin;
 
 }

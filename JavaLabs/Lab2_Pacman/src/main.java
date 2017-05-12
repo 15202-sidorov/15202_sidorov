@@ -70,12 +70,21 @@ class FieldPanel extends JPanel {
 
     private void setMap(Graphics g) {
         StillItem[][] stillItemsFromGame = logicCore.getMap();
+        EmptyField currentEmptyField;
         g.setColor(Color.BLUE);
         for (int i = 0; i < logicCore.getWidth(); i++) {
             for (int j = 0; j < logicCore.getHeight(); j++) {
                 try {
                     if (stillItemsFromGame[i][j].getClass() != Class.forName("Map_Items.EmptyField")) {
                         g.fillRect(i*cellWidth, j*cellHeight, cellWidth, cellHeight);
+                    }
+                    else {
+                        currentEmptyField = (EmptyField) stillItemsFromGame[i][j];
+                        if (currentEmptyField.hasCoin()) {
+                            g.setColor(Color.CYAN);
+                            g.fillOval(i * cellWidth + (cellWidth / 2), j * cellHeight + (cellHeight/2), cellWidth / 10, cellHeight / 10);
+                            g.setColor(Color.BLUE);
+                        }
                     }
                 }
                 catch (ClassNotFoundException ex) {
@@ -111,24 +120,35 @@ class FieldPanel extends JPanel {
 
         BufferedImage originalPacmanImage;
         BufferedImage[] originalGhostImage = new BufferedImage[GHOST_COUNT];
-
+        String resultFileName = "pacman";
         switch(logicCore.getPacman().getDirection()) {
             case RIGHT :
-                originalPacmanImage = ImageIO.read(new File(resourcePath + "pacmanright.png"));
+                resultFileName += "right";
                 break;
             case LEFT :
-                originalPacmanImage = ImageIO.read(new File(resourcePath + "pacmanleft.png"));
+                resultFileName += "left";
                 break;
             case UP :
-                originalPacmanImage = ImageIO.read(new File(resourcePath + "pacmanup.png"));
+                resultFileName += "up";
                 break;
             case DOWN :
-                originalPacmanImage = ImageIO.read(new File(resourcePath + "pacmandown.png"));
+                resultFileName += "down";
                 break;
             default:
-                originalPacmanImage = ImageIO.read(new File(resourcePath + "pacmanright.png"));
+                resultFileName += "right";
                 break;
         }
+
+        switch (pacmanMouth) {
+            case OPEN:
+                resultFileName += ".png";
+                break;
+            case CLOSED:
+                resultFileName = "pacmanclosed.png";
+                break;
+        }
+
+        originalPacmanImage = PacmanImageFactory.getImage(resourcePath + resultFileName);
 
         workingPacmanImage = originalPacmanImage.getScaledInstance(scaledImageSize,scaledImageSize,Image.SCALE_DEFAULT);
 
@@ -136,21 +156,22 @@ class FieldPanel extends JPanel {
         for (int i = 0; i < GHOST_COUNT; i++) {
             switch(logicCore.getGhosts()[i].getDirection()) {
                 case RIGHT :
-                    originalGhostImage[i] = ImageIO.read(new File(resourcePath + "slyde" + (i + 1) + "right.png"));
+                    resultFileName = "slyde" + (i + 1) + "right.png";
                     break;
                 case LEFT :
-                    originalGhostImage[i] = ImageIO.read(new File(resourcePath + "slyde" + (i + 1)+ "left.png"));
+                    resultFileName =  "slyde" + (i + 1)+ "left.png";
                     break;
                 case UP :
-                    originalGhostImage[i] = ImageIO.read(new File(resourcePath + "slyde" + (i + 1) + "up.png"));
+                    resultFileName =  "slyde" + (i + 1) + "up.png";
                     break;
                 case DOWN :
-                    originalGhostImage[i] = ImageIO.read(new File(resourcePath + "slyde" + (i + 1) + "down.png"));
+                    resultFileName = "slyde" + (i + 1) + "down.png";
                     break;
                 default:
-                    originalGhostImage[i] = ImageIO.read(new File(resourcePath + "slyde" + (i + 1) + "right.png"));
+                    resultFileName = "slyde" + (i + 1) + "right.png";
                     break;
             }
+            originalGhostImage[i] = PacmanImageFactory.getImage(resourcePath + resultFileName);
             workingGhostsImage[i] = originalGhostImage[i].getScaledInstance(scaledImageSize,scaledImageSize,Image.SCALE_DEFAULT);
         }
     }
@@ -164,12 +185,26 @@ class FieldPanel extends JPanel {
 
     private class doEachItartion extends TimerTask {
         public void run() {
+            if (pacmankilledFlag) {
+                littleTimer.cancel();
+                cancel();
+            }
             try {
                 logicRunner.nextItaration();
+                switch(pacmanMouth) {
+                    case OPEN:
+                        pacmanMouth = PacmanMouthState.CLOSED;
+                        break;
+                    case CLOSED:
+                        pacmanMouth = PacmanMouthState.OPEN;
+                        break;
+                }
                 getImages();
             }
             catch(Exception ex) { System.out.println("Exception caught while itarating"); }
-
+            if (logicCore.getPacman().getHP() < 0) {
+                pacmankilledFlag = true;
+            }
             refreshLogicLocations();
             repaint();
         }
@@ -262,6 +297,7 @@ class FieldPanel extends JPanel {
     private int cellHeight = height / logicCore.getHeight();
     private Timer mainTimer = new Timer();
     private Timer littleTimer = new Timer();
+    private Timer pacmanMouthChangeTimer = new Timer();
 
     private Point pacmanLocation = new Point();
     private Point[] ghostLocation =  new Point[GHOST_COUNT];
@@ -271,6 +307,13 @@ class FieldPanel extends JPanel {
 
     private Image workingPacmanImage;
     private Image[] workingGhostsImage = new Image[GHOST_COUNT];
+    private enum PacmanMouthState {
+        OPEN, CLOSED, HALFOPEN_1, HALFOPEN_2
+    }
+    private PacmanMouthState pacmanMouth = PacmanMouthState.OPEN;
+
+    private ImageFactory PacmanImageFactory = new ImageFactory();
+    private boolean pacmankilledFlag = false;
 
     private String resourcePath = "/home/ilia/15202_sidorov/JavaLabs/Lab2_Pacman/resource/";
 

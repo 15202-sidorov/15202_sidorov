@@ -10,6 +10,11 @@ public class GameRunner {
     public int nextItaration() throws Exception {
         PacmanUnit pacman = field.getPacman();
         GhostUnit[] ghosts = field.getGhosts();
+        EmptyField currentPacmanField = (EmptyField)field.getMap()[pacman.getX_coordinate()][pacman.getY_coordinate()];
+        if (currentPacmanField.hasCoin()) {
+            currentPacmanField.takeCoin();
+        }
+
         if ( possibleToMove(pacman) ) {
             pacman.moveForward();
         }
@@ -21,12 +26,11 @@ public class GameRunner {
             }
             if (ghosts[i].getX_coordinate() == pacman.getX_coordinate() &&
                     ghosts[i].getY_coordinate() == pacman.getY_coordinate()) {
-                System.out.println("Ou");
                 pacman.kill();
+                System.out.println(pacman.getHP());
             } else if ((ghosts[i].getX_coordinate() + dx == pacman.getX_coordinate()) &&
                     ghosts[i].getY_coordinate() + dy == pacman.getY_coordinate()) {
                 if (ghosts[i].getDirection() != pacman.getDirection()) {
-                    System.out.println("Ouuuu");
                     pacman.kill();
                 }
             }
