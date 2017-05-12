@@ -32,23 +32,6 @@ public abstract class Movable extends MapItem {
         moves = d;
     }
 
-    public void changeDirectionToAnother() {
-        switch (moves) {
-            case RIGHT :
-                moves = Direction.UP;
-                break;
-            case LEFT :
-                moves = Direction.DOWN;
-                break;
-            case UP :
-                moves = Direction.RIGHT;
-                break;
-            case DOWN :
-                moves = Direction.LEFT;
-                break;
-        }
-    }
-
     public Direction getDirection() {
         return moves;
     }

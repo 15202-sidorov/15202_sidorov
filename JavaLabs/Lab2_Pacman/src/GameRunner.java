@@ -19,11 +19,44 @@ public class GameRunner {
             pacman.moveForward();
         }
         for (int i = 0; i < 3; i++) {
-            if (possibleToMove(ghosts[i])) {
-                ghosts[i].moveForward();
-            } else {
-                ghosts[i].changeDirectionToAnother();
+            while (!possibleToMove(ghosts[i])) {
+                dx = ghosts[i].getX_coordinate() - pacman.getX_coordinate();
+                dy = ghosts[i].getY_coordinate() - pacman.getY_coordinate();
+                if ((ghosts[i].getDirection() == Movable.Direction.LEFT) ||
+                    (ghosts[i].getDirection() == Movable.Direction.RIGHT)) {
+                    if (abs(dy) < abs(dx)) {
+                        if (dy > 0) {
+                            ghosts[i].changeDirection(Movable.Direction.UP);
+                        }
+                        else {
+                            ghosts[i].changeDirection(Movable.Direction.DOWN);
+                        }
+                    }
+                    else if (ghosts[i].getDirection() == Movable.Direction.RIGHT) {
+                        ghosts[i].changeDirection(Movable.Direction.LEFT);
+                    }
+                    else {
+                        ghosts[i].changeDirection(Movable.Direction.RIGHT);
+                    }
+                }
+                else {
+                    if (abs(dx) < abs(dy)) {
+                        if (dx > 0) {
+                            ghosts[i].changeDirection(Movable.Direction.RIGHT);
+                        }
+                        else {
+                            ghosts[i].changeDirection(Movable.Direction.LEFT);
+                        }
+                    }
+                    else if (ghosts[i].getDirection() == Movable.Direction.UP) {
+                        ghosts[i].changeDirection(Movable.Direction.DOWN);
+                    }
+                    else {
+                        ghosts[i].changeDirection(Movable.Direction.UP);
+                    }
+                }
             }
+            ghosts[i].moveForward();
             if (ghosts[i].getX_coordinate() == pacman.getX_coordinate() &&
                     ghosts[i].getY_coordinate() == pacman.getY_coordinate()) {
                 pacman.kill();
@@ -65,8 +98,14 @@ public class GameRunner {
                 break;
         }
 
-        int nextX = abs((unit.getX_coordinate() + dx) % field.getWidth());
-        int nextY = abs((unit.getY_coordinate() + dy) % field.getHeight());
+        int nextX = (unit.getX_coordinate() + dx) % field.getWidth();
+        int nextY = (unit.getY_coordinate() + dy) % field.getHeight();
+        if (nextX < 0) {
+            nextX = field.getWidth() - 1;
+        }
+        if (nextY < 0) {
+            nextY = field.getHeight() - 1;
+        }
         StillItem[][] map = field.getMap();
         try {
             System.out.println(map[nextX][nextY].getClass().toString());

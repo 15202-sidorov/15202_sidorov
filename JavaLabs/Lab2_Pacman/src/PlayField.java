@@ -73,6 +73,10 @@ public class PlayField {
                 field[i][j] = new Wall(i,j,width, height);
             }
         }
+
+        for (int i = 0; i < height; i++) {
+            field[width-1][i] = new Wall(i,height -1 ,width,height);
+        }
     }
 
     private StillItem[][] field;
