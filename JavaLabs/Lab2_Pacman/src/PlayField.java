@@ -1,5 +1,7 @@
 import Map_Items.*;
 
+import java.io.IOException;
+
 /**
     Interface : can change pacman's direction only
     Playfield holds all the resourses the game will need
@@ -8,6 +10,12 @@ import Map_Items.*;
 
 public class PlayField {
     public PlayField() {
+        try {
+            getDataFromFile();
+        }
+        catch (IOException ex ){
+            System.out.println("Could not download field");
+        }
         setField();
         locateGhosts();
         locatePacman();
@@ -33,6 +41,17 @@ public class PlayField {
         return height;
     }
 
+    private void getDataFromFile() throws IOException {
+        FieldReader dataGetter = new FieldReader(resourceFile);
+        width = dataGetter.getWidth();
+        height = dataGetter.getHieght();
+        fieldItemsDesc = dataGetter.getField();
+        X_Pacman_Start = dataGetter.getPacmanX();
+        Y_Pacman_Start = dataGetter.getPacmanY();
+        X_Ghost_Birth = dataGetter.getGhostsCoordsX();
+        Y_Ghost_Birth = dataGetter.getGhostsCoordsY();
+    }
+
     private void locatePacman() {
         pacman = new PacmanUnit(X_Pacman_Start,Y_Pacman_Start,width, height);
     }
@@ -45,39 +64,22 @@ public class PlayField {
     }
 
     private void setField() {
-        //just a test field for now
         field = new StillItem[width][height];
         EmptyField currentEmptyField;
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                field[i][j] = new EmptyField(i,j,width,height);
-                currentEmptyField = (EmptyField)field[i][j];
-                currentEmptyField.placeCoin();
-                coinCounter++;
+                if (fieldItemsDesc[i][j]) {
+                    field[i][j] = new Wall(i,j,width,height);
+                }
+                else {
+                    field[i][j] = new EmptyField(i,j,width,height);
+                    currentEmptyField = (EmptyField)field[i][j];
+                    currentEmptyField.placeCoin();
+                    coinCounter++;
+                }
             }
         }
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                field[i][j] = new Wall(i,j,width,height);
-            }
-        }
-
-        for (int i = 6; i < 12; i++) {
-            for (int j = 7; j < 13; j++) {
-                field[i][j] = new Wall(i,j,width,height);
-            }
-        }
-
-        for (int i = 18; i < 20; i++) {
-            for (int j = 0; j < 3; j++) {
-                field[i][j] = new Wall(i,j,width, height);
-            }
-        }
-
-        for (int i = 0; i < height; i++) {
-            field[width-1][i] = new Wall(i,height -1 ,width,height);
-        }
     }
 
     public int getCoins() {
@@ -92,16 +94,19 @@ public class PlayField {
     private StillItem[][] field;
     private GhostUnit[] ghosts;
     private PacmanUnit pacman;
+    private boolean[][] fieldItemsDesc;
 
     private int coinCounter = 0;
 
-    private final int width = 20;
-    private final int height = 20;
+    private int width;
+    private int height;
     private final int ghostsCount = 4;
 
-    private int[] X_Ghost_Birth = { 8, 10,12,14};
-    private int[] Y_Ghost_Birth = {14,14,14,14};
+    private int[] X_Ghost_Birth;
+    private int[] Y_Ghost_Birth;
+    private int X_Pacman_Start;
+    private int Y_Pacman_Start;
 
-    private int X_Pacman_Start = 4;
-    private int Y_Pacman_Start = 4;
+    private final String resourceFile = "/home/ilia/15202_sidorov/JavaLabs/Lab2_Pacman/resource/field.txt";
+
 }
