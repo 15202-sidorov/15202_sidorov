@@ -53,6 +53,7 @@ public class PlayField {
                 field[i][j] = new EmptyField(i,j,width,height);
                 currentEmptyField = (EmptyField)field[i][j];
                 currentEmptyField.placeCoin();
+                coinCounter++;
             }
         }
 
@@ -79,15 +80,26 @@ public class PlayField {
         }
     }
 
+    public int getCoins() {
+        return coinCounter;
+    }
+
+    public void decCoin() {
+        coinCounter--;
+        return;
+    }
+
     private StillItem[][] field;
     private GhostUnit[] ghosts;
     private PacmanUnit pacman;
+
+    private int coinCounter = 0;
 
     private final int width = 20;
     private final int height = 20;
     private final int ghostsCount = 4;
 
-    private int[] X_Ghost_Birth = { 8, 9,10,11};
+    private int[] X_Ghost_Birth = { 8, 10,12,14};
     private int[] Y_Ghost_Birth = {14,14,14,14};
 
     private int X_Pacman_Start = 4;

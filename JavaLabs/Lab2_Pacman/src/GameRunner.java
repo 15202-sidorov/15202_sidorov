@@ -13,6 +13,14 @@ public class GameRunner {
         EmptyField currentPacmanField = (EmptyField)field.getMap()[pacman.getX_coordinate()][pacman.getY_coordinate()];
         if (currentPacmanField.hasCoin()) {
             currentPacmanField.takeCoin();
+            field.decCoin();
+            if (field.getCoins() <= 0) {
+                field.getPacman().setHP(-1);
+            }
+        }
+        if (field.getCoins() <= 0) {
+            field.getPacman().setHP(-1);
+            System.out.println("Pacman is dead");
         }
 
         if ( possibleToMove(pacman) ) {
@@ -24,7 +32,7 @@ public class GameRunner {
                 dy = ghosts[i].getY_coordinate() - pacman.getY_coordinate();
                 if ((ghosts[i].getDirection() == Movable.Direction.LEFT) ||
                     (ghosts[i].getDirection() == Movable.Direction.RIGHT)) {
-                    if (abs(dy) < abs(dx)) {
+                    if (abs(dy) > abs(dx)) {
                         if (dy > 0) {
                             ghosts[i].changeDirection(Movable.Direction.UP);
                         }
@@ -40,7 +48,7 @@ public class GameRunner {
                     }
                 }
                 else {
-                    if (abs(dx) < abs(dy)) {
+                    if (abs(dx) > abs(dy)) {
                         if (dx > 0) {
                             ghosts[i].changeDirection(Movable.Direction.RIGHT);
                         }
@@ -108,7 +116,6 @@ public class GameRunner {
         }
         StillItem[][] map = field.getMap();
         try {
-            System.out.println(map[nextX][nextY].getClass().toString());
             if (map[nextX][nextY].getClass() == Class.forName("Map_Items.EmptyField")) {
                 return true;
             } else {

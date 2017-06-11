@@ -3,7 +3,6 @@ import Map_Items.Movable;
 import Map_Items.StillItem;
 
 import javax.swing.*;
-import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -290,7 +289,7 @@ public class FieldPanel extends JPanel {
 
     private String resourcePath = "/home/ilia/15202_sidorov/JavaLabs/Lab2_Pacman/resource/";
 
-    final private static int MSEC_PER_ITARATION = 300;
+    final private static int MSEC_PER_ITARATION = 200;
     final private static int GHOST_COUNT = 3;
 
 }

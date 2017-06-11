@@ -9,6 +9,11 @@ public class PacmanUnit extends Movable {
         return HP;
     }
 
+    public void setHP(int hpin) {
+        HP = hpin;
+        return;
+    }
+
     public void kill() {
         HP--;
     }
