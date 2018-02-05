@@ -3,3 +3,4 @@ CLabs directory contains simple programs, written in C language. Programs were m
 CPPLabs directory contains programs, implemented in C++ language. <br/>
 JavaLabas directory contains programs, implemented in Java language. <br/>
 GrishinChat is a project, written as part of Object Oriented Analise and Design cource. Project is not compete, but majority of functionality is implemented.  <br/>
+FaceDetection is a python project. Written with the usage of tools : PyQt, OpenCv, Dlib, Sqlite.
