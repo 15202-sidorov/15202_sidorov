@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Sign in</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="registerFormStyles.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" >
+      const USERNAME_KEY = "USERNAME_KEY";
+      const USERID_KEY = "USERID_KEY";
+      function setSessionStorage() {
+        window.sessionStorage.setItem(USERNAME_KEY, $("#name").val());
+      }
+  </script>
+</head>
+<body>
+
+<div class="jumbotron text-center">
+  <h1>Welcome to your corporate chat!</h1>
+</div>
+  
+<div class="container">
+        <div class="row centered-form">
+        <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Sign in</h3>
+            </div>
+            <div class="panel-body">
+              <form role="form" action="/GrishinChat/signin" method="GET">
+              
+                <div class="form-group">
+                    <input name="name" id="name" class="form-control input-sm" placeholder="Username">
+                </div>
+
+                <div class="form-group">
+                  <input type="password" name="password" id="password" class="form-control input-sm" placeholder="Password">
+                </div>
+                
+                <input type="submit" value="Sign in" class="btn btn-info btn-block" onclick="setSessionStorage(); submit();">
+              
+              </form>
+            </div>
+            <hr>
+            <div class="panel-body">
+              <p> Not registered? </p>
+              <form role="form" action="/GrishinChat/register" method="GET">
+                <div class="form-group">
+                  <input type="submit" value="Register" class="btn btn-info btn-block">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/D:/AllProgects/GrishinChat/src/java/serverInterface/RootServlet.java</file>
+            <file>file:/D:/AllProgects/GrishinChat/src/java/businessLogic/Entities/User.java</file>
+            <file>file:/D:/AllProgects/GrishinChat/src/java/serverInterface/RegisterServlet.java</file>
+            <file>file:/D:/AllProgects/GrishinChat/src/java/businessLogic/PublicChatController.java</file>
+            <file>file:/D:/AllProgects/GrishinChat/src/java/serverInterface/PublicChatServlet.java</file>
+            <file>file:/D:/AllProgects/GrishinChat/src/java/businessLogic/Entities/Message.java</file>
+            <file>file:/D:/AllProgects/GrishinChat/src/java/Utils/ResourceHandler.java</file>
+            <file>file:/D:/AllProgects/GrishinChat/src/java/databaseInterface/DatabaseController.java</file>
+            <file>file:/D:/AllProgects/GrishinChat/web/publicChatPage.html</file>
+            <file>file:/D:/AllProgects/GrishinChat/src/java/serverInterface/SignInServlet.java</file>
+            <file>file:/D:/AllProgects/GrishinChat/src/java/businessLogic/RegistrationController.java</file>
+            <file>file:/D:/AllProgects/GrishinChat/src/java/businessLogic/Entities/SuperChat.java</file>
+            <file>file:/D:/AllProgects/GrishinChat/web/signInForm.html</file>
+            <file>file:/D:/AllProgects/GrishinChat/src/java/businessLogic/Entities/PrivateChat.java</file>
+            <file>file:/D:/AllProgects/GrishinChat/src/java/businessLogic/Entities/PublicChat.java</file>
+            <file>file:/D:/AllProgects/GrishinChat/src/java/serverInterface/mainWS.java</file>
+            <file>file:/D:/AllProgects/GrishinChat/src/java/businessLogic/Entities/Chat.java</file>
+        </group>
+    </open-files>
+</project-private>

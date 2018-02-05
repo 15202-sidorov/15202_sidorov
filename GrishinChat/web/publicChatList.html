@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Public chat list</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="publicChat.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="HomePage">GrishinChat</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="HomePage">Home</a></li>
+      <li><a href="PublicChat">Public Chats</a></li>
+      <li><a href="PrivateChat">Private Chats</a></li>
+      <li><a href="/GrishinChat">Exit</a></li>
+    </ul>
+  </div>
+</nav>
+</head>
+<body>
+    <div class="container">    
+        <h1> Current public chats: </h1>
+            <ul class="list-group">
+                
+            </ul>
+        <div>
+            <input id="enterChatName" name="newChat" type="text" placeholder="New chat name" autocomplete="off">
+        </div>
+        <div id="createChat"><button> + </button></div>
+    </div>
+
+</body>
+
+<script>
+     
+      $(".chatname").click(function openChat() {
+       
+        var parameters = "actualPublicChat?username=" + 
+                window.sessionStorage.getItem("USERNAME_KEY") + "&chatname=" + $(this).text();
+        window.location.href = parameters;
+      });
+      
+      $("#createChat").click(function() {
+         parameters = "PublicChat?username=" + window.sessionStorage.getItem("USERNAME_KEY") + "&chatname=" + $("#enterChatName").val();
+         $.post(parameters, function() { window.location.reload()} );
+      });
+  </script>
+</html>
